@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
+    <link rel="icon" href="img/logo.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Bank Sampah - EcoVend</title>
@@ -55,6 +56,122 @@
           opacity: 1;
           transform: translateY(0);
           pointer-events: all;
+        }
+
+        /* ========== SAMA PERSIS ANIMASI SEMUA HALAMAN ========== */
+        .reward-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+            padding: 20px;
+        }
+        .reward-modal.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .reward-card {
+            background: white;
+            border-radius: 32px;
+            max-width: 380px;
+            width: 100%;
+            text-align: center;
+            transform: translateY(100px) scale(0.8);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            position: relative;
+        }
+        .reward-modal.show .reward-card {
+            transform: translateY(0) scale(1);
+        }
+        .reward-header {
+            background: linear-gradient(135deg, #15803d 0%, #13601f 100%);
+            padding: 40px 20px 30px;
+            color: white;
+            position: relative;
+        }
+        .reward-icon {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 40px;
+            animation: pop 0.6s ease 0.2s both;
+        }
+        @keyframes pop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .reward-point {
+            font-size: 52px;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .reward-body {
+            padding: 24px;
+        }
+        .reward-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #15803d, #13601f);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .reward-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(19, 96, 31, 0.3);
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: confetti-fall 1.5s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes confetti-fall {
+            0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(150px) rotate(720deg); }
+        }
+        .flying-point {
+            position: fixed;
+            font-weight: 900;
+            font-size: 28px;
+            color: #eab308;
+            pointer-events: none;
+            z-index: 9999;
+            animation: flyToPoint 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            text-shadow: 0 2px 8px rgba(234, 179, 8, 0.5);
+        }
+        @keyframes flyToPoint {
+            0% { opacity: 1; transform: scale(1.5); }
+            100% { opacity: 0; transform: scale(0.5) translateY(-100px); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .shake {
+            animation: shake 0.4s ease;
         }
     </style>
 </head>
@@ -292,6 +409,22 @@
     </div>
 </footer>
 
+<!-- Modal Sukses Setor Sampah -->
+<div id="successModal" class="reward-modal">
+    <div class="reward-card">
+        <div class="reward-header">
+            <div class="reward-icon">♻️</div>
+            <div class="reward-point" id="totalPoinReward">+360</div>
+            <div class="font-bold text-xl">Setoran Berhasil!</div>
+        </div>
+        <div class="reward-body">
+            <div class="text-xl font-bold mb-2">Selamat!</div>
+            <p class="text-gray-600 mb-6">Sampah kamu berhasil tercatat, poin sudah otomatis masuk ke akun kamu. Terima kasih sudah menjaga bumi kita ✨</p>
+            <button class="reward-btn" onclick="tutupModal()">Oke, Mengerti</button>
+        </div>
+    </div>
+</div>
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -374,23 +507,40 @@ document.addEventListener("DOMContentLoaded", function () {
     berat.addEventListener('input', hitungPoin);
 
 
-    // KIRIM SETORAN
+    // KIRIM SETORAN VERSI BARU
     document.getElementById('kirimBtn').addEventListener('click', function(){
         const jenis = jenisSampah.value;
         const beratValue = parseFloat(berat.value) || 0;
         const lokasi = document.getElementById('lokasi').value.trim();
 
         if(!jenis || !beratValue || !lokasi){
-            alert("⚠️ Harap isi semua data dengan lengkap!");
+            document.querySelector('.bg-gradient-to-br').classList.add('shake');
+            setTimeout(() => document.querySelector('.bg-gradient-to-br').classList.remove('shake'), 400);
             return;
         }
 
         const totalPoin = Math.round(poinPerKg[jenis] * beratValue);
+        const oldPoin = poin;
 
         // Tambahkan Poin
         poin += totalPoin;
         localStorage.setItem("poin", poin);
-        updatePoinUI();
+
+        // Animasi poin terbang
+        const flyEl = document.createElement('div');
+        flyEl.classList.add('flying-point');
+        flyEl.innerText = `+${totalPoin}`;
+        flyEl.style.left = `50%`;
+        flyEl.style.top = `50%`;
+        document.body.appendChild(flyEl);
+
+        // Suara notifikasi
+        try { new Audio('https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3').play().catch(() => {}) } catch(e) {}
+
+        // Animasi hitung poin bertambah
+        animateCounter(oldPoin, poin, 800);
+        
+        setTimeout(() => flyEl.remove(), 1000);
 
         // Tambahkan ke Riwayat
         const setoranBaru = {
@@ -412,11 +562,72 @@ document.addEventListener("DOMContentLoaded", function () {
         estimasiPoin.innerText = "0 Poin";
         preview.classList.add('hidden');
         uploadPlaceholder.classList.remove('hidden');
-        preview.classList.add('hidden');
 
         renderRiwayat();
-        alert(`✅ Berhasil! Kamu mendapatkan ${totalPoin} poin!`);
+
+        // Buka modal sukses dengan konfetti
+        setTimeout(() => {
+            document.getElementById('totalPoinReward').innerText = `+${totalPoin}`;
+            document.getElementById('successModal').classList.add('show');
+            spawnConfetti();
+        }, 1100);
     });
+
+
+    // Fungsi animasi hitung angka
+    function animateCounter(from, to, duration) {
+        const el = document.getElementById('saldoPoin');
+        const start = from;
+        const end = to;
+        const startTime = performance.now();
+
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+            const current = Math.floor(start + (end - start) * easeOut);
+            
+            el.innerText = current.toLocaleString('id-ID') + ' Poin';
+
+            if(progress < 1) requestAnimationFrame(update);
+        }
+
+        requestAnimationFrame(update);
+    }
+
+    window.tutupModal = function() {
+        document.getElementById('successModal').classList.remove('show');
+    }
+
+    document.getElementById('successModal').addEventListener('click', e => {
+        if(e.target === e.currentTarget) tutupModal();
+    })
+
+    document.addEventListener('keydown', e => {
+        if(e.key === 'Escape') tutupModal();
+    })
+
+    // Efek konfetti
+    function spawnConfetti() {
+        const colors = ['#eab308', '#15803d', '#ef4444', '#3b82f6', '#a855f7'];
+        const card = document.querySelector('#successModal .reward-card');
+
+        for(let i = 0; i < 30; i++) {
+            setTimeout(() => {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.top = '0px';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                confetti.style.width = `${Math.random() * 8 + 4}px`;
+                confetti.style.height = confetti.style.width;
+                
+                card.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 2000);
+            }, i * 20);
+        }
+    }
 
 
     // RENDER RIWAYAT SETORAN
