@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bank Sampah - EcoVend</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: {
+                        primary: '#13601f',
+                        secondary: '#15803d',
+                        accent: '#eab308',
+                        light: '#dcfce7'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(40px) scale(0.98); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .slide-up {
+          animation: slideUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .mission-card {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+
+        #mobile-menu {
+          transition: opacity 0.3s ease, transform 0.3s ease;
+          opacity: 0;
+          transform: translateY(-10px);
+          pointer-events: none;
+        }
+        #mobile-menu.show {
+          opacity: 1;
+          transform: translateY(0);
+          pointer-events: all;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800">
+
+<!-- NAVBAR SAMA PERSIS DENGAN SEMUA HALAMAN -->
+<nav class="bg-white/85 backdrop-blur-xl shadow-xl sticky top-0 z-50 border-b border-white/50">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+        <a href="index.html" class="flex items-center gap-3 group">
+            <img src="img/logo.png" 
+                 class="w-10 h-10 object-contain group-hover:scale-110 transition duration-300"
+                 alt="EcoVend Logo"
+                 onerror="this.src='https://picsum.photos/id/1025/100'">
+            <span class="font-black text-xl text-gray-900">EcoVend</span>
+        </a>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center gap-6 lg:gap-8">
+            <a href="index.html" class="text-gray-600 hover:text-primary font-medium px-3 py-2 rounded-lg transition-all duration-300 hover:bg-emerald-50">
+                <i class="fas fa-home mr-1"></i>Beranda
+            </a>
+            <a href="bank-sampah.html" class="bg-gradient-to-r from-primary to-secondary text-white font-bold px-5 py-2.5 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                <i class="fas fa-recycle mr-1"></i>Bank Sampah
+            </a>
+            <a href="misi.html" class="text-gray-600 hover:text-primary font-medium px-3 py-2 rounded-lg transition-all duration-300 hover:bg-emerald-50">
+                <i class="fas fa-trophy mr-1"></i>Misi
+            </a>
+            <a href="marketplace.html" class="text-gray-600 hover:text-primary font-medium px-3 py-2 rounded-lg transition-all duration-300 hover:bg-emerald-50">
+                <i class="fas fa-store mr-1"></i>Marketplace
+            </a>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <!-- Auth -->
+            <div class="relative">
+                <button id="avatarBtn" class="flex items-center gap-2 p-1 rounded-full group">
+                    <img src="https://media.tenor.com/lE64r8h8qIEAAAAe/anaxa-hsr.png" 
+                         class="w-10 h-10 rounded-full border-2 border-primary group-hover:scale-105 transition">
+                    <span class="hidden sm:block text-sm font-semibold text-gray-700 group-hover:text-primary">
+                        Anaxa
+                    </span>
+                </button>
+
+                <!-- DROPDOWN MENU -->
+                <div id="dropdownMenu" 
+                     class="absolute right-0 mt-3 w-48 bg-white rounded-2xl shadow-lg py-2 border
+                            opacity-0 scale-95 transform transition-all duration-200 origin-top-right pointer-events-none z-50">
+                    <a href="dashboard.html" 
+                       class="flex items-center gap-2 px-4 py-3 text-sm hover:bg-gray-100 transition">
+                        🏠 Dashboard
+                    </a>
+                    <a href="profil.html" 
+                       class="flex items-center gap-2 px-4 py-3 text-sm hover:bg-gray-100 transition">
+                        👤 Profil
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="mobileBtn" class="md:hidden p-2 rounded-xl hover:bg-gray-100">
+                <i class="fas fa-bars text-xl text-gray-700"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden absolute w-full bg-white shadow-xl border-t">
+        <div class="p-4 flex flex-col gap-1">
+            <a href="index.html" class="px-4 py-3 rounded-xl hover:bg-gray-50 font-medium">
+                <i class="fas fa-home mr-2"></i> Beranda
+            </a>
+            <a href="bank-sampah.html" class="px-4 py-3 rounded-xl bg-emerald-50 text-primary font-bold">
+                <i class="fas fa-recycle mr-2"></i> Bank Sampah
+            </a>
+            <a href="misi.html" class="px-4 py-3 rounded-xl hover:bg-gray-50 font-medium">
+                <i class="fas fa-trophy mr-2"></i> Misi
+            </a>
+            <a href="marketplace.html" class="px-4 py-3 rounded-xl hover:bg-gray-50 font-medium">
+                <i class="fas fa-store mr-2"></i> Marketplace
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- HEADER SALDO POIN -->
+<section class="relative pt-20 pb-12 bg-white text-center overflow-hidden">
+    <img src="https://i.pinimg.com/736x/5a/c2/f2/5ac2f2f3c26a24fe23c24210ccdbd72f.jpg" 
+         class="absolute inset-0 w-full h-full object-cover opacity-20"
+         alt="Background">
+
+    <div class="relative z-10 mission-card">
+        <div class="inline-flex items-center gap-2 bg-white/70 backdrop-blur-xl px-6 py-3 rounded-3xl border border-white/80 mb-6 shadow-md">
+            <i class="fas fa-coins text-yellow-500 text-xl"></i>
+            <span id="saldoPoin" class="font-black text-2xl text-yellow-600">2.847 Poin</span>
+        </div>
+    </div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-4 mission-card">
+        <h1 class="text-[clamp(1.8rem,5vw,3rem)] font-extrabold text-gray-900 mb-3">
+            Setor Sampahmu Sekarang
+        </h1>
+        <p class="text-gray-600 mb-4 px-2">
+            Tukarkan sampahmu dan dapatkan poin secara instan
+        </p>
+    </div>
+</section>
+
+<main class="max-w-7xl mx-auto px-4 -mt-8 pb-20 relative z-10">
+
+    <!-- FORM SETOR SAMPAH -->
+    <div class="mission-card bg-gradient-to-br from-primary to-secondary rounded-3xl shadow-2xl overflow-hidden mb-12">
+        <div class="grid md:grid-cols-2 gap-0">
+            
+            <!-- UPLOAD FOTO -->
+            <div class="p-6 md:p-10">
+                <div class="relative group">
+                    <div class="h-[300px] flex flex-col items-center justify-center border-2 border-dashed border-white/40 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300">
+                        
+                        <input type="file" id="fileInput" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
+
+                        <div id="uploadPlaceholder" class="text-center text-white">
+                            <div class="text-5xl mb-4 group-hover:scale-110 transition">📸</div>
+                            <p class="font-semibold text-lg">Upload Foto Sampah</p>
+                            <p class="text-sm opacity-70 mt-1">Klik atau drag & drop disini</p>
+                        </div>
+
+                        <img id="preview" class="absolute inset-0 w-full h-full object-cover rounded-2xl hidden">
+                    </div>
+                </div>
+            </div>
+
+            <!-- FORM INPUT -->
+            <div class="p-6 md:p-10 space-y-5 text-white">
+                <h2 class="text-2xl font-bold mb-1">Form Setor Sampah</h2>
+                <p class="text-sm opacity-80 mb-6">Masukkan data sampah untuk diproses</p>
+
+                <div>
+                    <label class="text-sm opacity-90">Jenis Sampah</label>
+                    <select id="jenisSampah" class="w-full mt-2 p-3 rounded-xl bg-white/20 border border-white/30 text-white outline-none focus:border-white transition">
+                        <option value="" class="text-gray-800">Pilih Jenis Sampah</option>
+                        <option value="plastik" class="text-gray-800">Plastik (120 Poin / kg)</option>
+                        <option value="kertas" class="text-gray-800">Kertas (80 Poin / kg)</option>
+                        <option value="logam" class="text-gray-800">Logam (150 Poin / kg)</option>
+                        <option value="kaca" class="text-gray-800">Kaca (90 Poin / kg)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="text-sm opacity-90">Berat Sampah (kg)</label>
+                    <input type="number" id="berat" min="0.1" step="0.1" placeholder="Masukkan berat sampah" 
+                    class="w-full mt-2 p-3 rounded-xl bg-white/20 border border-white/30 text-white placeholder-white/60 outline-none focus:border-white transition">
+                </div>
+
+                <div>
+                    <label class="text-sm opacity-90">Lokasi EcoVend</label>
+                    <input type="text" id="lokasi" placeholder="Pilih lokasi terdekat" 
+                    class="w-full mt-2 p-3 rounded-xl bg-white/20 border border-white/30 text-white placeholder-white/60 outline-none focus:border-white transition">
+                </div>
+
+                <!-- PERHITUNGAN POIN REAL TIME -->
+                <div class="bg-white/10 p-4 rounded-xl mt-4">
+                    <p class="text-sm opacity-80">Estimasi Poin yang Didapat</p>
+                    <p id="estimasiPoin" class="text-3xl font-black mt-1">0 Poin</p>
+                </div>
+
+                <button id="kirimBtn" class="w-full bg-white text-primary py-3.5 rounded-xl font-bold shadow-lg hover:scale-[1.02] transition">
+                    Kirim Setoran
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- RIWAYAT SETORAN -->
+    <section class="mission-card">
+        <h2 class="text-2xl md:text-3xl font-black text-gray-900 mb-2 flex items-center gap-3">
+            <span class="w-3 h-3 bg-gradient-to-r from-primary to-secondary rounded-full"></span>
+            Riwayat Setoran
+        </h2>
+        <p class="text-gray-600 mb-8">Semua riwayat setoran sampah kamu</p>
+
+        <div id="riwayatSetoran" class="space-y-3">
+            <div class="text-center py-12 text-gray-400" id="emptyState">
+                <i class="fas fa-box-open text-4xl mb-3"></i>
+                <p>Belum ada riwayat setoran</p>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- FOOTER SAMA PERSIS SEMUA HALAMAN -->
+<footer class="bg-gray-900 text-gray-300 pt-12 pb-6 mt-12">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+            <div class="col-span-2 md:col-span-1">
+              <div class="flex items-center mb-4 gap-2">
+                    <img src="img/logo.png" alt="EcoVend Logo" class="h-8 object-contain" onerror="this.src='https://picsum.photos/id/1025/100'">
+                    <span class="text-xl font-bold text-white">EcoVend</span>
+                </div>
+                <p class="text-sm text-gray-400">
+                    Platform digital pengelolaan sampah berbasis poin untuk Indonesia yang lebih bersih.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-4">Platform</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="index.html" class="hover:text-white transition">Beranda</a></li>
+                    <li><a href="bank-sampah.html" class="hover:text-white transition">Bank Sampah</a></li>
+                    <li><a href="misi.html" class="hover:text-white transition">Misi</a></li>
+                    <li><a href="marketplace.html" class="hover:text-white transition">Marketplace</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-4">Perusahaan</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="tentang.html" class="hover:text-white transition">Tentang Kami</a></li>
+                    <li><a href="#" class="hover:text-white transition">Kontak</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-4">Legal</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-white transition">Kebijakan Privasi</a></li>
+                    <li><a href="#" class="hover:text-white transition">Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+            &copy; 2026 EcoVend. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // SISTEM POIN GLOBAL SINKRON SEMUA HALAMAN
+    let poin = localStorage.getItem("poin") ? parseInt(localStorage.getItem("poin")) : 2847;
+    let riwayat = localStorage.getItem("riwayatSetoran") ? JSON.parse(localStorage.getItem("riwayatSetoran")) : [];
+    
+    const poinPerKg = {
+        plastik: 120,
+        kertas: 80,
+        logam: 150,
+        kaca: 90
+    }
+
+    function updatePoinUI(){
+        document.getElementById("saldoPoin").innerText = poin.toLocaleString("id-ID") + " Poin";
+    }
+    updatePoinUI();
+
+
+    // DROPDOWN AVATAR
+    const avatarBtn = document.getElementById('avatarBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    avatarBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('opacity-0');
+        dropdownMenu.classList.toggle('scale-95');
+        dropdownMenu.classList.toggle('pointer-events-none');
+    });
+    document.addEventListener('click', () => {
+        dropdownMenu.classList.add('opacity-0','scale-95','pointer-events-none');
+    });
+
+
+    // MOBILE MENU
+    const mobileBtn = document.getElementById('mobileBtn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('show');
+    });
+
+
+    // UPLOAD FOTO PREVIEW
+    const fileInput = document.getElementById('fileInput');
+    const preview = document.getElementById('preview');
+    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+
+    fileInput.addEventListener('change', function(){
+        const file = this.files[0];
+        if(file){
+            const reader = new FileReader();
+            reader.onload = function(e){
+                preview.src = e.target.result;
+                preview.classList.remove('hidden');
+                uploadPlaceholder.classList.add('hidden');
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+
+    // KALKULASI POIN REAL TIME
+    const jenisSampah = document.getElementById('jenisSampah');
+    const berat = document.getElementById('berat');
+    const estimasiPoin = document.getElementById('estimasiPoin');
+
+    function hitungPoin(){
+        const jenis = jenisSampah.value;
+        const beratValue = parseFloat(berat.value) || 0;
+        
+        if(jenis && beratValue > 0){
+            const total = Math.round(poinPerKg[jenis] * beratValue);
+            estimasiPoin.innerText = total.toLocaleString("id-ID") + " Poin";
+        } else {
+            estimasiPoin.innerText = "0 Poin";
+        }
+    }
+
+    jenisSampah.addEventListener('change', hitungPoin);
+    berat.addEventListener('input', hitungPoin);
+
+
+    // KIRIM SETORAN
+    document.getElementById('kirimBtn').addEventListener('click', function(){
+        const jenis = jenisSampah.value;
+        const beratValue = parseFloat(berat.value) || 0;
+        const lokasi = document.getElementById('lokasi').value.trim();
+
+        if(!jenis || !beratValue || !lokasi){
+            alert("⚠️ Harap isi semua data dengan lengkap!");
+            return;
+        }
+
+        const totalPoin = Math.round(poinPerKg[jenis] * beratValue);
+
+        // Tambahkan Poin
+        poin += totalPoin;
+        localStorage.setItem("poin", poin);
+        updatePoinUI();
+
+        // Tambahkan ke Riwayat
+        const setoranBaru = {
+            tanggal: new Date().toLocaleDateString("id-ID"),
+            jenis: jenis,
+            berat: beratValue,
+            poin: totalPoin,
+            lokasi: lokasi,
+            status: "Diproses"
+        }
+
+        riwayat.unshift(setoranBaru);
+        localStorage.setItem("riwayatSetoran", JSON.stringify(riwayat));
+
+        // Reset Form
+        jenisSampah.value = "";
+        berat.value = "";
+        document.getElementById('lokasi').value = "";
+        estimasiPoin.innerText = "0 Poin";
+        preview.classList.add('hidden');
+        uploadPlaceholder.classList.remove('hidden');
+        preview.classList.add('hidden');
+
+        renderRiwayat();
+        alert(`✅ Berhasil! Kamu mendapatkan ${totalPoin} poin!`);
+    });
+
+
+    // RENDER RIWAYAT SETORAN
+    function renderRiwayat(){
+        const container = document.getElementById('riwayatSetoran');
+        const emptyState = document.getElementById('emptyState');
+
+        if(riwayat.length === 0){
+            emptyState.classList.remove('hidden');
+            return;
+        }
+
+        emptyState.classList.add('hidden');
+        container.innerHTML = "";
+
+        riwayat.forEach(item => {
+            container.innerHTML += `
+            <div class="bg-white rounded-xl p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-recycle text-primary text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold">${item.jenis.charAt(0).toUpperCase() + item.jenis.slice(1)} - ${item.berat} kg</p>
+                        <p class="text-sm text-gray-500">${item.tanggal} • ${item.lokasi}</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="font-black text-primary">+ ${item.poin} Poin</p>
+                    <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">${item.status}</span>
+                </div>
+            </div>
+            `
+        })
+    }
+    renderRiwayat();
+
+
+    // PAGE ENTRANCE ANIMATION
+    function initAnimations() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('slide-up');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.mission-card').forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+            observer.observe(card);
+        });
+    }
+    initAnimations();
+
+});
+</script>
+
+</body>
+</html>

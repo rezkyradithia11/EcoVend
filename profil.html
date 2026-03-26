@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Profil - EcoVend</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }, colors: { primary: '#13601f', secondary: '#15803d', accent: '#eab308' } } }
+        }
+    </script>
+<style>
+    * {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    .card-hover {
+        transition: all 0.3s ease;
+    }
+    .card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    }
+    .badge {
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    .progress-bar {
+        background: linear-gradient(90deg, #13601f 0%, #15803d 100%);
+        transition: width 1.5s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .slide-up {
+      animation: slideUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    .mission-card {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.3s ease;
+    }
+
+    #mobile-menu {
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+    }
+    #mobile-menu.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    .mission-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    .profile-grid {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: 1fr;
+    }
+    @media screen and (min-width: 1024px) {
+        .profile-grid {
+            grid-template-columns: 350px 1fr;
+        }
+    }
+
+    /* Input file hidden untuk upload gambar */
+    input[type="file"] {
+        display: none;
+    }
+</style>
+
+</head>
+<body class="font-sans antialiased bg-gray-50 text-gray-800">
+
+<!-- NAVBAR SAMA PERSIS DENGAN HALAMAN MISI -->
+<nav class="bg-white/85 backdrop-blur-xl shadow-xl sticky top-0 z-50 border-b border-white/50">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+        <a href="index.html" class="flex items-center gap-3 group">
+            <img src="img/logo.png" 
+                 class="w-10 h-10 object-contain group-hover:scale-110 transition duration-300"
+                 alt="EcoVend Logo"
+                 onerror="this.src='https://picsum.photos/id/1025/100'">
+            <span class="font-black text-xl text-gray-900">EcoVend</span>
+        </a>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center gap-6 lg:gap-8">
+            <a href="index.html" class="text-gray-600 hover:text-primary font-medium px-3 py-2 rounded-lg transition-all duration-300 hover:bg-emerald-50">
+                <i class="fas fa-home mr-1"></i>Beranda
+            </a>
+            <a href="bank-sampah.html" class="text-gray-600 hover:text-primary font-medium px-3 py-2 rounded-lg transition-all duration-300 hover:bg-emerald-50">
+                <i class="fas fa-recycle mr-1"></i>Bank Sampah
+            </a>
+            <a href="misi.html" class="text-gray-600 hover:text-primary font-medium px-3 py-2 rounded-lg transition-all duration-300 hover:bg-emerald-50">
+                <i class="fas fa-trophy mr-1"></i>Misi
+            </a>
+            <a href="marketplace.html" class="text-gray-600 hover:text-primary font-medium px-3 py-2 rounded-lg transition-all duration-300 hover:bg-emerald-50">
+                <i class="fas fa-store mr-1"></i>Marketplace
+            </a>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <!-- Avatar Dropdown SAMA PERSIS -->
+            <div class="relative">
+                <button id="avatarBtn" class="flex items-center gap-2 p-1 rounded-full group">
+                    <img id="navAvatar" src="https://media.tenor.com/lE64r8h8qIEAAAAe/anaxa-hsr.png" 
+                         class="w-10 h-10 rounded-full border-2 border-primary group-hover:scale-105 transition">
+                    <span id="navName" class="hidden sm:block text-sm font-semibold text-gray-700 group-hover:text-primary">
+                        Anaxa
+                    </span>
+                </button>
+
+                <!-- DROPDOWN MENU -->
+                <div id="dropdownMenu" 
+                     class="absolute right-0 mt-3 w-48 bg-white rounded-2xl shadow-lg py-2 border
+                            opacity-0 scale-95 transform transition-all duration-200 origin-top-right pointer-events-none z-50">
+                    <a href="dashboard.html" 
+                       class="flex items-center gap-2 px-4 py-3 text-sm hover:bg-gray-100 transition">
+                        🏠 Dashboard
+                    </a>
+                    <a href="profil.html" 
+                       class="flex items-center gap-2 px-4 py-3 text-sm bg-emerald-50 text-primary">
+                        👤 Profil
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mobile Hamburger Button SAMA PERSIS -->
+            <button id="mobileBtn" class="md:hidden p-2 rounded-xl hover:bg-gray-100">
+                <i class="fas fa-bars text-xl text-gray-700"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Input file hidden untuk upload gambar -->
+    <input type="file" id="uploadBanner" accept="image/*">
+    <input type="file" id="uploadFotoProfil" accept="image/*">
+
+    <!-- Mobile Menu SAMA PERSIS -->
+    <div id="mobile-menu" class="md:hidden absolute w-full bg-white shadow-xl border-t">
+        <div class="p-4 flex flex-col gap-1">
+            <a href="index.html" class="px-4 py-3 rounded-xl hover:bg-gray-50 font-medium">
+                <i class="fas fa-home mr-2"></i> Beranda
+            </a>
+            <a href="bank-sampah.html" class="px-4 py-3 rounded-xl hover:bg-gray-50 font-medium">
+                <i class="fas fa-recycle mr-2"></i> Bank Sampah
+            </a>
+            <a href="misi.html" class="px-4 py-3 rounded-xl hover:bg-gray-50 font-medium">
+                <i class="fas fa-trophy mr-2"></i> Misi
+            </a>
+            <a href="marketplace.html" class="px-4 py-3 rounded-xl hover:bg-gray-50 font-medium">
+                <i class="fas fa-store mr-2"></i> Marketplace
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- KONTEN PROFIL MURNI, TANPA UNSUR DASHBOARD -->
+<main class="max-w-7xl mx-auto px-4 py-8 pb-20">
+    <!-- Header Halaman -->
+    <div class="mission-card mb-8">
+        <h1 class="text-[clamp(2rem,5vw,3rem)] font-black text-gray-900 mb-2">Profil Saya</h1>
+        <p class="text-gray-600 text-lg">Kelola akun dan informasi pribadimu</p>
+    </div>
+
+    <div class="profile-grid">
+        <!-- KIRI: KARTU PROFIL UTAMA + PROGRESS LEVEL (TETAP ADA KARENA BAGIAN DARI PROFIL) -->
+        <div class="space-y-6">
+            <!-- Kartu Identitas Utama -->
+            <div class="mission-card bg-white rounded-3xl shadow-lg overflow-hidden">
+                <div class="h-36 bg-gradient-to-r from-primary to-secondary relative">
+                    <button id="btnGantiSampul" class="absolute bottom-3 right-3 bg-white/20 backdrop-blur text-white px-3 py-1.5 rounded-lg text-sm hover:bg-white/30 transition">
+                        <i class="fas fa-camera mr-1"></i> Ganti Sampul
+                    </button>
+                </div>
+                <div class="px-6 pb-6 -mt-12">
+                    <div class="relative inline-block">
+                        <img id="fotoProfil" src="https://media.tenor.com/lE64r8h8qIEAAAAe/anaxa-hsr.png" class="w-24 h-24 rounded-2xl border-4 border-white shadow-lg">
+                        <button id="btnGantiFoto" class="absolute bottom-1 right-1 w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center">
+                            <i class="fas fa-pen text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <h2 id="namaProfil" class="text-2xl font-bold">Anaxa</h2>
+                            <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full font-medium">
+                                <i class="fas fa-check-circle mr-1"></i> Terverifikasi
+                            </span>
+                        </div>
+                        <p class="text-gray-500 text-sm mt-1"><i class="fas fa-calendar mr-1"></i> Bergabung sejak 12 Maret 2026</p>
+                        <p id="alamatProfil" class="text-gray-500 text-sm mt-1"><i class="fas fa-map-marker-alt mr-1"></i> Bandung, Indonesia</p>
+
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="bg-yellow-100 text-yellow-700 px-3 py-1.5 rounded-full font-semibold text-sm">
+                                🌱 Level <span id="levelUser">1</span> - Eco Warrior
+                            </span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1.5 rounded-full font-semibold text-sm badge">
+                                🔥 <span id="hariAktif">3</span> Hari Streak
+                            </span>
+                        </div>
+                    </div>
+                    <button class="w-full mt-6 bg-primary text-white py-3 rounded-xl font-medium hover:bg-green-700 transition">
+                        <i class="fas fa-edit mr-1"></i> Edit Profil
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress Level Card -->
+            <div class="mission-card bg-white rounded-3xl shadow-lg p-6">
+                <h3 class="font-bold text-lg mb-4">Progress Menuju Level 2</h3>
+                <div class="flex justify-between items-center mb-2">
+                    <span id="progressLevelText" class="text-gray-600 text-sm">2463 poin lagi untuk naik level</span>
+                    <span id="persenLevel" class="font-bold text-primary">51%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+                    <div id="progressBarLevel" class="progress-bar h-4 rounded-full" style="width: 0%"></div>
+                </div>
+                <p class="text-gray-500 text-sm mt-3">Kumpulkan 2kg sampah lagi untuk menambah 500 poin!</p>
+            </div>
+        </div>
+
+        <!-- KANAN: FORM EDIT DATA & PENGATURAN AKUN (PENGGANTI ELEMEN DASHBOARD) -->
+        <div class="space-y-6">
+            <!-- Form Edit Data Pribadi -->
+            <div class="mission-card bg-white rounded-3xl shadow-lg p-6 md:p-8">
+                <h3 class="text-lg font-bold mb-6">Edit Informasi Pribadi</h3>
+                <form id="formEditProfil" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
+                            <input type="text" id="inputNama" value="Anaxa" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Nomor HP</label>
+                            <input type="text" id="inputNomor" value="08123456789" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Alamat</label>
+                        <input type="text" id="inputAlamat" value="Bandung, Indonesia" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input type="email" id="inputEmail" value="anaxa@ecovend.id" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+                    <button type="submit" class="w-full bg-primary text-white py-3 rounded-xl font-medium hover:bg-green-700 transition">Simpan Semua Perubahan</button>
+                </form>
+            </div>
+
+            <!-- Pengaturan Akun Lainnya -->
+            <div class="mission-card bg-white rounded-3xl shadow-lg p-6 md:p-8">
+                <h3 class="text-lg font-bold mb-4">Pengaturan Akun</h3>
+                <div class="divide-y">
+                    <a href="#" class="profile-menu-item flex items-center justify-between px-0 py-4 hover:bg-gray-50 px-2 -mx-2 rounded-xl transition">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center"><i class="fas fa-bell text-yellow-600"></i></div>
+                            <div><p class="font-semibold">Notifikasi</p><p class="text-sm text-gray-500">Atur pengingat setor sampah</p></div>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </a>
+                    <a href="#" class="profile-menu-item flex items-center justify-between px-0 py-4 hover:bg-gray-50 px-2 -mx-2 rounded-xl transition">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center"><i class="fas fa-lock text-purple-600"></i></div>
+                            <div><p class="font-semibold">Keamanan Akun</p><p class="text-sm text-gray-500">Ganti password, 2FA</p></div>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </a>
+                    <a href="#" class="profile-menu-item flex items-center justify-between px-0 py-4 hover:bg-gray-50 px-2 -mx-2 rounded-xl transition">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center"><i class="fas fa-history text-blue-600"></i></div>
+                            <div><p class="font-semibold">Riwayat Transaksi</p><p class="text-sm text-gray-500">Semua riwayat setor dan tukar poin</p></div>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </a>
+                    <a href="#" class="profile-menu-item flex items-center justify-between px-0 py-4 hover:bg-gray-50 px-2 -mx-2 rounded-xl transition">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center"><i class="fas fa-trash text-red-600"></i></div>
+                            <div><p class="font-semibold text-red-500">Hapus Akun</p><p class="text-sm text-gray-500">Nonaktifkan akun secara permanen</p></div>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- FOOTER SAMA PERSIS DENGAN HALAMAN MISI -->
+<footer class="bg-gray-900 text-gray-300 pt-12 pb-6 mt-12">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+            <div class="col-span-2 md:col-span-1">
+              <div class="flex items-center mb-4 gap-2">
+                    <img src="img/logo.png" alt="EcoVend Logo" class="h-8 object-contain" onerror="this.src='https://picsum.photos/id/1025/100'">
+                    <span class="text-xl font-bold text-white">EcoVend</span>
+                </div>
+                <p class="text-sm text-gray-400">
+                    Platform digital pengelolaan sampah berbasis poin untuk Indonesia yang lebih bersih.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-4">Platform</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="index.html" class="hover:text-white transition">Beranda</a></li>
+                    <li><a href="bank-sampah.html" class="hover:text-white transition">Bank Sampah</a></li>
+                    <li><a href="misi.html" class="hover:text-white transition">Misi</a></li>
+                    <li><a href="marketplace.html" class="hover:text-white transition">Marketplace</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-4">Perusahaan</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="tentang.html" class="hover:text-white transition">Tentang Kami</a></li>
+                    <li><a href="#" class="hover:text-white transition">Kontak</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-4">Legal</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-white transition">Kebijakan Privasi</a></li>
+                    <li><a href="#" class="hover:text-white transition">Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+            &copy; 2026 EcoVend. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<!-- SCRIPT LENGKAP DENGAN FITUR EDIT PROFIL -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // SISTEM POIN DAN DATA SINKRON SEMUA HALAMAN
+    const poin = localStorage.getItem("poin") ? parseInt(localStorage.getItem("poin")) : 2537;
+    const riwayat = localStorage.getItem("riwayatSetoran") ? JSON.parse(localStorage.getItem("riwayatSetoran")) : [{berat:2}];
+    const poinPerLevel = 5000;
+    const level = Math.floor(poin / poinPerLevel) + 1;
+    const progressLevel = ((poin % poinPerLevel) / poinPerLevel) * 100;
+    const poinUntukLevelSelanjutnya = poinPerLevel - (poin % poinPerLevel);
+    // UPDATE UI PROGRESS LEVEL
+    document.getElementById("levelUser").innerText = level;
+    document.getElementById("persenLevel").innerText = Math.round(progressLevel) + "%";
+    document.getElementById("progressLevelText").innerText = `${poinUntukLevelSelanjutnya.toLocaleString()} poin lagi untuk naik ke Level ${level + 1}`;
+    
+    setTimeout(() => {
+        document.getElementById("progressBarLevel").style.width = `${progressLevel}%`;
+    }, 600);
+
+    let totalSampah = 0;
+    riwayat.forEach(item => totalSampah += item.berat);
+
+    // FITUR GANTI BANNER/SAMPUL
+    const btnGantiSampul = document.getElementById("btnGantiSampul");
+    const uploadBanner = document.getElementById("uploadBanner");
+    btnGantiSampul.addEventListener("click", () => uploadBanner.click());
+    uploadBanner.addEventListener("change", function(e) {
+        const file = e.target.files[0];
+        if(file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const bannerUrl = event.target.result;
+                document.querySelector(".h-36").style.backgroundImage = `url(${bannerUrl})`;
+                document.querySelector(".h-36").style.backgroundSize = "cover";
+                dataProfil.banner = bannerUrl;
+                localStorage.setItem("dataProfil", JSON.stringify(dataProfil));
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // FITUR GANTI FOTO PROFIL
+    const btnGantiFoto = document.getElementById("btnGantiFoto");
+    const uploadFotoProfil = document.getElementById("uploadFotoProfil");
+    btnGantiFoto.addEventListener("click", () => uploadFotoProfil.click());
+    uploadFotoProfil.addEventListener("change", function(e) {
+        const file = e.target.files[0];
+        if(file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const fotoUrl = event.target.result;
+                document.getElementById("fotoProfil").src = fotoUrl;
+                document.getElementById("navAvatar").src = fotoUrl;
+                dataProfil.fotoProfil = fotoUrl;
+                localStorage.setItem("dataProfil", JSON.stringify(dataProfil));
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // FITUR SIMPAN PERUBAHAN FORM
+    const formEditProfil = document.getElementById("formEditProfil");
+    formEditProfil.addEventListener("submit", function(e) {
+        e.preventDefault();
+        dataProfil.nama = document.getElementById("inputNama").value;
+        dataProfil.alamat = document.getElementById("inputAlamat").value;
+        dataProfil.email = document.getElementById("inputEmail").value;
+        dataProfil.nomor = document.getElementById("inputNomor").value;
+        
+        localStorage.setItem("dataProfil", JSON.stringify(dataProfil));
+        document.getElementById("namaProfil").innerText = dataProfil.nama;
+        document.getElementById("navName").innerText = dataProfil.nama;
+        document.getElementById("alamatProfil").innerHTML = `<i class="fas fa-map-marker-alt mr-1"></i> ${dataProfil.alamat}`;
+        alert("✅ Semua perubahan berhasil disimpan!");
+    });
+
+    // DROPDOWN AVATAR
+    const avatarBtn = document.getElementById('avatarBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    avatarBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('opacity-0');
+        dropdownMenu.classList.toggle('scale-95');
+        dropdownMenu.classList.toggle('pointer-events-none');
+    });
+    document.addEventListener('click', () => {
+        dropdownMenu.classList.add('opacity-0','scale-95','pointer-events-none');
+    });
+
+    // MOBILE MENU
+    const mobileBtn = document.getElementById('mobileBtn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('show');
+    });
+
+    // ANIMASI SLIDEUP SAMA PERSIS DENGAN HALAMAN MISI
+    function initAnimations() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('slide-up');
+                    }, i * 120);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.10 });
+
+        document.querySelectorAll('.mission-card').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // FALLBACK JIKA ANIMASI GAGAL
+        setTimeout(() => {
+            document.querySelectorAll('.mission-card:not(.slide-up)').forEach(el => {
+                el.classList.add('slide-up');
+            });
+        }, 1500);
+    }
+    initAnimations();
+});
+</script>
+
+</body>
+</html>

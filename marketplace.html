@@ -2,7 +2,7 @@
 <html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Marketplace - EcoVend | Tukar Poinmu dengan Produk Ramah Lingkungan</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,110 +13,91 @@
                 extend: { 
                     fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }, 
                     colors: { 
-    primary: '#13601f',
-    secondary: '#15803d',
-    accent: '#eab308',
-    light: '#dcfce7'
-},
-                   
+                        primary: '#13601f',
+                        secondary: '#15803d',
+                        accent: '#eab308',
+                        light: '#dcfce7'
+                    },
                 } 
             }
         }
     </script>
     <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        body {
+            overscroll-behavior-y: contain;
+        }
+
         .glass-effect {
             background: rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.18);
         }
         .gradient-bg {
             background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
         }
-        .hero-pattern {
-            background-image: 
-                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
-        }
+
         .product-hover {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .product-hover:hover {
-            transform: translateY(-12px) scale(1.02);
+            transform: translateY(-8px) scale(1.02);
             box-shadow: 0 32px 64px rgba(0,0,0,0.15);
-        }
-        @media (max-width: 768px) {
-            .hero-text h1 { font-size: 2.5rem !important; }
         }
 
         @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
+            from { opacity: 0; transform: translateY(40px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
 
-.slide-up {
-  animation: slideUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
+        .slide-up {
+            animation: slideUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
 
-.opacity-0 {
-  opacity: 0;
-}
+        .mission-card {
+            opacity: 0;
+            transform: translateY(40px);
+        }
 
-.translate-y-12 {
-  transform: translateY(48px);
-}
+        #mobile-menu {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+        }
+        #mobile-menu.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
 
-.translate-y-10 {
-  transform: translateY(40px);
-}
-
-.translate-y-8 {
-  transform: translateY(32px);
-}
-
-.delay-200 {
-  animation-delay: 0.2s;
-}
-
-.mission-card {
-  transition: all 0.3s ease;
-}
-
-#mobile-menu {
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  opacity: 0;
-  transform: translateY(-10px);
-}
-#mobile-menu.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
+        .modal-open {
+            overflow: hidden;
+        }
+        
+        button, a {
+            min-height: 48px;
+            min-width: 48px;
+        }
     </style>
 </head>
-<body class="font-sans antialiased bg-gray-50 font-sans text-gray-800 min-h-screen">
+<body class="font-sans antialiased bg-gray-50 text-gray-800 min-h-screen">
 
     <!-- Navbar -->
-    <nav class="bg-white/80 backdrop-blur-xl shadow-xl sticky top-0 z-50 border-b border-white/50">
+    <nav class="bg-white/85 backdrop-blur-xl shadow-xl sticky top-0 z-50 border-b border-white/50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
             <a href="index.html" class="flex items-center gap-3 group">
-  <img src="img/logo.png" 
-       class="w-10 h-10 object-contain group-hover:scale-110 transition duration-300"
-       alt="EcoVend Logo">
+                <img src="img/logo.png" class="w-10 h-10 object-contain group-hover:scale-110 transition duration-300" alt="EcoVend Logo" onerror="this.src='https://picsum.photos/id/1025/100'">
+                <span class="font-black text-xl text-gray-900">EcoVend</span>
+            </a>
 
-  <span class="font-black text-xl text-gray-900">
-    EcoVend
-  </span>
-</a>
-
-            <!-- Menu -->
-            <div class="hidden md:flex items-center gap-10">
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-4 lg:gap-8">
                 <a href="index.html" class="text-gray-600 hover:text-primary font-medium px-3 py-2 rounded-lg transition-all duration-300 hover:bg-emerald-50">
                     <i class="fas fa-home mr-1"></i>Beranda
                 </a>
@@ -126,289 +107,291 @@
                 <a href="misi.html" class="text-gray-600 hover:text-primary font-medium px-3 py-2 rounded-lg transition-all duration-300 hover:bg-emerald-50">
                     <i class="fas fa-trophy mr-1"></i>Misi
                 </a>
-                <a href="marketplace.html" class="bg-gradient-to-r from-primary to-secondary text-white font-bold px-6 py-3 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                <a href="marketplace.html" class="bg-gradient-to-r from-primary to-secondary text-white font-bold px-5 py-2.5 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
                     <i class="fas fa-store mr-1"></i>Marketplace
                 </a>
             </div>
 
-            <!-- Auth -->
-           <div class="relative">
-    <button id="avatarBtn" class="flex items-center gap-2 group">
-        <img src="https://media.tenor.com/lE64r8h8qIEAAAAe/anaxa-hsr.png" 
-             class="w-10 h-10 rounded-full border-2 border-primary group-hover:scale-105 transition">
-        <span class="hidden sm:block text-sm font-semibold text-gray-700 group-hover:text-primary">
-            Anaxa
-        </span>
-    </button>
+            <!-- User & Mobile Button -->
+            <div class="flex items-center gap-2">
+                <div class="relative">
+                    <button id="avatarBtn" class="flex items-center gap-2 p-1 rounded-full group">
+                        <img src="https://media.tenor.com/lE64r8h8qIEAAAAe/anaxa-hsr.png" class="w-10 h-10 rounded-full border-2 border-primary group-hover:scale-105 transition" alt="Profil">
+                        <span class="hidden sm:block text-sm font-semibold text-gray-700 group-hover:text-primary">Anaxa</span>
+                    </button>
 
-    <!-- DROPDOWN MENU -->
-    <div id="dropdownMenu" 
-         class="absolute right-0 mt-3 w-44 bg-white rounded-2xl shadow-lg py-2 border
-                opacity-0 scale-95 transform transition-all duration-200 origin-top-right pointer-events-none">
-        <a href="dashboard.html" 
-           class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100 transition">
-            🏠 Dashboard
-        </a>
-        <a href="profil.html" 
-           class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100 transition">
-            👤 Profil
-        </a>
-        <div class="border-t my-2"></div>
-        <a href="login.html" 
-           class="flex items-center gap-2 px-4 py-2 text-sm text-red-500 hover:bg-gray-100 transition">
-            🚪 Logout
-        </a>
-    </div>
-</div>
-</nav>
-
-   <section class="relative pt-24 pb-16 bg-white text-center overflow-hidden">
-  
-  <!-- IMAGE OVERLAY -->
-  <img src="https://i.pinimg.com/1200x/04/0d/fe/040dfe4b1707c81e6a77a980e17e4ece.jpg" 
-       class="absolute inset-0 w-full h-full object-cover opacity-30"
-       alt="Hero Image">
-
-  <div class="relative z-10 animate-fade-in-up transition group mission-card opacity-0 translate-y-8">
-    <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-xl px-6 py-3 rounded-3xl border-4 border-white/80 mb-8 shadow-md">
-        <i class="fas fa-coins text-yellow-400 text-xl"></i>
-        <span id="saldoPoin" class="font-black text-2xl text-yellow-400">2.847 Poin</span>
-    </div>
-  </div>
-
-  <div class="relative z-10 max-w-4xl mx-auto px-4 transition group mission-card opacity-0 translate-y-8">
-    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
-        Tukar Poinmu dengan Produk
-    </h1>
-    <p class="text-gray-600 mb-8">
-        Pilih produk eco-friendly dan tukarkan poinmu sekarang
-    </p>
-
-    <div class="flex justify-center gap-4 transition group mission-card opacity-0 translate-y-8">
-        <button onclick="document.getElementById('produk').scrollIntoView({behavior:'smooth'})"
-            class="bg-primary text-white px-6 py-3 rounded-full text-sm font-medium">
-            Mulai Belanja
-        </button>
-
-        <button
-            class="border border-primary text-gray-700 px-6 py-3 rounded-full text-sm font-medium">
-            Lihat Hadiah
-        </button>
-    </div>
-  </div>
-
-</section>
-
-    <main class="max-w-7xl mx-auto px-4 -mt-12 pb-20 relative z-10 ">
-       <!-- Points Progress -->
-<div class="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 mb-12 border border-white/50 transition group mission-card opacity-0 translate-y-8">
-    <div class="flex flex-col lg:flex-row gap-8 items-center justify-between">
-        <div class="flex items-center gap-6">
-            <div class="w-20 h-20 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-2xl flex items-center justify-center shadow-xl">
-                <i class="fas fa-chart-line text-2xl text-white"></i>
-            </div>
-            <div>
-                <div class="produk" data-kategori="belanja"></div>
-                <p class="text-sm text-gray-500 uppercase tracking-wider font-medium">Next Reward</p>
-                <p class="text-3xl font-black text-gray-900">Tumbler Premium</p>
-                <div class="flex items-center gap-2 mb-4">
-                    <span class="text-2xl font-black text-primary">1,200</span>
-                    <span class="text-sm text-gray-500">Poin tersisa</span>
+                    <!-- User Dropdown -->
+                    <div id="dropdownMenu" class="absolute right-0 mt-3 w-48 bg-white rounded-2xl shadow-lg py-2 border opacity-0 scale-95 transform transition-all duration-200 origin-top-right pointer-events-none z-50">
+                        <a href="dashboard.html" class="flex items-center gap-2 px-4 py-3 text-sm hover:bg-gray-100 transition">
+                            🏠 Dashboard
+                        </a>
+                        <a href="profil.html" class="flex items-center gap-2 px-4 py-3 text-sm hover:bg-gray-100 transition">
+                            👤 Profil
+                        </a>
+                    </div>
                 </div>
 
-                <!-- PROGRESS BAR -->
-                <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
-                    <div class="bg-primary h-4 rounded-full" style="width: 45%;"></div>
-                </div>
+                <!-- Mobile Hamburger Button -->
+                <button id="mobileBtn" class="md:hidden p-2 rounded-xl hover:bg-gray-100">
+                    <i class="fas fa-bars text-xl text-gray-700"></i>
+                </button>
             </div>
         </div>
-    </div>
-</div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden absolute w-full bg-white shadow-xl border-t">
+            <div class="p-4 flex flex-col gap-1">
+                <a href="index.html" class="px-4 py-3 rounded-xl hover:bg-gray-50 font-medium">
+                    <i class="fas fa-home mr-2"></i> Beranda
+                </a>
+                <a href="bank-sampah.html" class="px-4 py-3 rounded-xl hover:bg-gray-50 font-medium">
+                    <i class="fas fa-recycle mr-2"></i> Bank Sampah
+                </a>
+                <a href="misi.html" class="px-4 py-3 rounded-xl hover:bg-gray-50 font-medium">
+                    <i class="fas fa-trophy mr-2"></i> Misi
+                </a>
+                <a href="marketplace.html" class="px-4 py-3 rounded-xl bg-emerald-50 text-primary font-bold">
+                    <i class="fas fa-store mr-2"></i> Marketplace
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-20 pb-12 bg-white text-center overflow-hidden">
+        <img src="https://i.pinimg.com/1200x/04/0d/fe/040dfe4b1707c81e6a77a980e17e4ece.jpg" class="absolute inset-0 w-full h-full object-cover opacity-20" alt="Hero Background">
+
+        <div class="relative z-10 mission-card">
+            <div class="inline-flex items-center gap-2 bg-white/70 backdrop-blur-xl px-6 py-3 rounded-3xl border border-white/80 mb-6 shadow-md">
+                <i class="fas fa-coins text-yellow-500 text-xl"></i>
+                <span id="saldoPoin" class="font-black text-2xl text-yellow-600">2.847 Poin</span>
+            </div>
+        </div>
+
+        <div class="relative z-10 max-w-4xl mx-auto px-4 mission-card">
+            <h1 class="text-[clamp(1.8rem,5vw,3rem)] font-extrabold text-gray-900 mb-3">
+                Tukar Poinmu dengan Produk
+            </h1>
+            <p class="text-gray-600 mb-8 px-4">
+                Pilih produk eco-friendly dan tukarkan poinmu sekarang
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-3 mission-card">
+                <button onclick="document.getElementById('produk').scrollIntoView({behavior:'smooth'})" class="bg-primary text-white px-6 py-3 rounded-full text-sm font-medium">
+                    Mulai Belanja
+                </button>
+                <button class="border border-primary text-gray-700 px-6 py-3 rounded-full text-sm font-medium">
+                    Lihat Hadiah
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-4 -mt-8 pb-20 relative z-10 ">
+        <!-- Points Progress -->
+        <div class="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-6 mb-10 border border-white/50 mission-card">
+            <div class="flex flex-col md:flex-row gap-6 items-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0">
+                    <i class="fas fa-chart-line text-2xl text-white"></i>
+                </div>
+                <div class="flex-1 w-full">
+                    <p class="text-sm text-gray-500 uppercase tracking-wider font-medium">Next Reward</p>
+                    <p class="text-2xl font-black text-gray-900 mb-2">Tumbler Premium</p>
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-xl font-black text-primary">1,200</span>
+                        <span class="text-sm text-gray-500">Poin tersisa</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                        <div class="bg-primary h-3 rounded-full transition-all duration-1000" style="width: 45%"></div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Category Tabs -->
-        <div class="flex flex-wrap gap-2 lg:gap-4 border-b border-gray-200/50 mb-12 pb-4 bg-white/50 backdrop-blur-xl rounded-2xl p-4 border">
-            <button class="group px-6 py-3 font-bold text-primary bg-emerald-100 rounded-2xl shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300 flex items-center gap-2">
-                <i class="fas fa-th-large"></i>
-                Semua Produk
+        <div class="flex flex-wrap gap-2 mb-10 bg-white/50 backdrop-blur-xl rounded-2xl p-3 border mission-card">
+            <button class="category-tab active group px-4 py-3 font-bold text-primary bg-emerald-100 rounded-xl flex items-center gap-2" data-filter="all">
+                <i class="fas fa-th-large"></i> Semua
             </button>
-            <button class="px-6 py-3 font-semibold text-gray-600 hover:text-primary rounded-xl hover:bg-white/50 transition-all duration-300 flex items-center gap-2">
-                <i class="fas fa-gift-card"></i>
-                Voucher
+            <button class="category-tab px-4 py-3 font-semibold text-gray-600 hover:text-primary rounded-xl hover:bg-white/50 transition flex items-center gap-2" data-filter="voucher">
+                <i class="fas fa-gift-card"></i> Voucher
             </button>
-            <button class="px-6 py-3 font-semibold text-gray-600 hover:text-primary rounded-xl hover:bg-white/50 transition-all duration-300 flex items-center gap-2">
-                <i class="fas fa-shopping-bag"></i>
-                Belanja
+            <button class="category-tab px-4 py-3 font-semibold text-gray-600 hover:text-primary rounded-xl hover:bg-white/50 transition flex items-center gap-2" data-filter="produk">
+                <i class="fas fa-shopping-bag"></i> Produk
             </button>
         </div>
-<section id="produk" class="mb-20 transition group mission-card opacity-0 translate-y-8">
-    <h2 class="text-3xl font-black text-gray-900 mb-2 flex items-center gap-3">
-        <span class="w-3 h-3 bg-gradient-to-r from-primary to-secondary rounded-full"></span>
-        Produk Terfavorit
-    </h2>
-    <p class="text-lg text-gray-600 mb-10">Pilihan terbaik dari ribuan pengguna EcoVend</p>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-    <!-- Card 1 -->
-    <div class="group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl shadow-2xl overflow-hidden transition-transform hover:scale-105 flex flex-col">
-        <div class="relative h-56 bg-gradient-to-br from-emerald-500 to-emerald-600 overflow-hidden">
-            <img src="https://i.pinimg.com/1200x/22/4b/06/224b06927fa860ca1cee67fbd275e02a.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Tumbler Premium">
-        </div>
-        <div class="p-6 flex-1 flex flex-col justify-between">
-            <div>
-                <h3 class="font-bold text-xl text-gray-900 mb-2 leading-tight">Tumbler Stainless Steel Premium</h3>
-                <p class="text-gray-600 text-sm mb-4">Menjaga minuman tetap dingin 24 jam. Anti bocor 100%</p>
-            </div>
-            <div class="flex items-center justify-between mt-auto">
-                <span class="text-2xl font-black text-primary">1,250 <span class="text-sm font-normal text-gray-500">Poin</span></span>
-                <button onclick="bukaForm(1250, 'Tumbler Premium')" class="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-2xl font-bold">Tukar</button>
-            </div>
-        </div>
-    </div>
 
-    <!-- Card 2 -->
-    <div class="group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl shadow-2xl overflow-hidden transition-transform hover:scale-105 flex flex-col">
-        <div class="relative h-56 bg-gradient-to-br from-emerald-500 to-emerald-600 overflow-hidden">
-            <img src="https://i.pinimg.com/736x/a4/a7/6e/a4a76ed353845273c66d5b90d827f2aa.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Tote Bag">
-        </div>
-        <div class="p-6 flex-1 flex flex-col justify-between">
-            <div>
-                <h3 class="font-bold text-xl text-gray-900 mb-2">Canvas Tote Bag Eco</h3>
-                <p class="text-gray-600 text-sm mb-4">Tas belanja ramah lingkungan, kuat & stylish</p>
-            </div>
-            <div class="flex items-center justify-between mt-auto">
-                <span class="text-2xl font-black text-primary">450 Poin</span>
-                <button onclick="bukaForm(450, 'Tote Bag Eco')" class="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-2xl font-bold">Tukar</button>
-            </div>
-        </div>
-    </div>
+        <!-- Product List -->
+        <section id="produk" class="mb-16 mission-card">
+            <h2 class="text-2xl md:text-3xl font-black text-gray-900 mb-2 flex items-center gap-3">
+                <span class="w-3 h-3 bg-gradient-to-r from-primary to-secondary rounded-full"></span>
+                Produk Terfavorit
+            </h2>
+            <p class="text-gray-600 mb-8">Pilihan terbaik dari ribuan pengguna EcoVend</p>
 
-    <!-- Card 3 -->
-    <div class="group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl shadow-2xl overflow-hidden transition-transform hover:scale-105 flex flex-col">
-        <div class="h-56 bg-gradient-to-br from-purple-500 to-purple-600 overflow-hidden">
-            <img src="https://i.pinimg.com/1200x/a8/d3/60/a8d36043c93f6936822fb23c2177c092.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Bamboo Toothbrush">
-        </div>
-        <div class="p-6 flex-1 flex flex-col justify-between">
-            <div>
-                <h3 class="font-bold text-xl text-gray-900 mb-2">Sikat Gigi Bambu</h3>
-                <p class="text-gray-600 text-sm mb-4">100% biodegradable, ramah lingkungan</p>
-            </div>
-            <div class="flex items-center justify-between mt-auto">
-                <span class="text-2xl font-black text-primary">180 Poin</span>
-                <button onclick="bukaForm(180, 'Sikat Gigi Bambu')" class="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-2xl font-bold">Tukar</button>
-            </div>
-        </div>
-    </div>
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Product Card 1 -->
+                <div class="product-card product-hover group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl shadow-xl overflow-hidden flex flex-col" data-category="produk">
+                    <div class="relative h-52 bg-gradient-to-br from-emerald-500 to-emerald-600 overflow-hidden">
+                        <img src="https://i.pinimg.com/1200x/22/4b/06/224b06927fa860ca1cee67fbd275e02a.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Tumbler Premium">
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-900 mb-2">Tumbler Stainless Steel Premium</h3>
+                            <p class="text-gray-600 text-sm mb-4">Menjaga minuman tetap dingin 24 jam. Anti bocor 100%</p>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-xl font-black text-primary">1.250 <span class="text-xs font-normal text-gray-500">Poin</span></span>
+                            <button onclick="bukaForm(1250, 'Tumbler Premium')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Card 4 -->
-    <div class="group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl shadow-2xl overflow-hidden transition-transform hover:scale-105 flex flex-col">
-        <div class="h-56 bg-gradient-to-br from-purple-500 to-purple-600 overflow-hidden">
-            <img src="https://i.pinimg.com/736x/c2/9d/ed/c29ded06ca882fba287a06b1418d131f.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Reusable Straw">
-        </div>
-        <div class="p-6 flex-1 flex flex-col justify-between">
-            <div>
-                <h3 class="font-bold text-xl text-gray-900 mb-2">Sedotan Stainless Steel</h3>
-                <p class="text-gray-600 text-sm mb-4">Ramah lingkungan, mudah dibersihkan</p>
-            </div>
-            <div class="flex items-center justify-between mt-auto">
-                <span class="text-2xl font-black text-primary">90 Poin</span>
-                <button onclick="bukaForm(90, 'Sedotan Stainless Steel')" class="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-2xl font-bold">Tukar</button>
-            </div>
-        </div>
-    </div>
+                <!-- Product Card 2 -->
+                <div class="product-card product-hover group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl shadow-xl overflow-hidden flex flex-col" data-category="produk">
+                    <div class="relative h-52 bg-gradient-to-br from-emerald-500 to-emerald-600 overflow-hidden">
+                        <img src="https://i.pinimg.com/736x/a4/a7/6e/a4a76ed353845273c66d5b90d827f2aa.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Tote Bag">
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-900 mb-2">Canvas Tote Bag Eco</h3>
+                            <p class="text-gray-600 text-sm mb-4">Tas belanja ramah lingkungan, kuat & stylish</p>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-xl font-black text-primary">450 <span class="text-xs font-normal text-gray-500">Poin</span></span>
+                            <button onclick="bukaForm(450, 'Tote Bag Eco')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Card 5 -->
-    <div class="group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl shadow-2xl overflow-hidden transition-transform hover:scale-105 flex flex-col">
-      <div class="h-56 bg-gradient-to-br from-purple-500 to-purple-600 overflow-hidden">
-            <img src="https://i.pinimg.com/1200x/c2/8b/d1/c28bd126c063572c382894635ba46f16.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Eco Notebook">
-        </div>
-        <div class="p-6 flex-1 flex flex-col justify-between">
-            <div>
-                <h3 class="font-bold text-xl text-gray-900 mb-2">Eco Notebook</h3>
-                <p class="text-gray-600 text-sm mb-4">Buku catatan ramah lingkungan, recycled paper</p>
-            </div>
-            <div class="flex items-center justify-between mt-auto">
-                <span class="text-2xl font-black text-primary">300 Poin</span>
-                <button onclick="bukaForm(300, 'Eco Notebook')" class="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-2xl font-bold">Tukar</button>
-            </div>
-        </div>
-    </div>
+                <!-- Product Card 3 -->
+                <div class="product-card product-hover group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl shadow-xl overflow-hidden flex flex-col" data-category="produk">
+                    <div class="h-52 bg-gradient-to-br from-purple-500 to-purple-600 overflow-hidden">
+                        <img src="https://i.pinimg.com/1200x/a8/d3/60/a8d36043c93f6936822fb23c2177c092.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Sikat Gigi Bambu">
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-900 mb-2">Sikat Gigi Bambu</h3>
+                            <p class="text-gray-600 text-sm mb-4">100% biodegradable, ramah lingkungan</p>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-xl font-black text-primary">180 <span class="text-xs font-normal text-gray-500">Poin</span></span>
+                            <button onclick="bukaForm(180, 'Sikat Gigi Bambu')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Card 6 -->
-    <div class="group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl shadow-2xl overflow-hidden transition-transform hover:scale-105 flex flex-col">
-        <div class="h-56 bg-gradient-to-br from-purple-500 to-purple-600 overflow-hidden">
-            <img src="https://i.pinimg.com/736x/da/50/d3/da50d32583b5656902c7a238adbc40c4.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Reusable Bag">
-        </div>
-        <div class="p-6 flex-1 flex flex-col justify-between">
-            <div>
-                <h3 class="font-bold text-xl text-gray-900 mb-2">Lampu Hias Eco </h3>
-                <p class="text-gray-600 text-sm mb-4">Lampu hias yang terbuat dari botol plastik untuk menemani kamu</p>
-            </div>
-            <div class="flex items-center justify-between mt-auto">
-                <span class="text-2xl font-black text-primary">220 Poin</span>
-                <button onclick="bukaForm(220, 'Reusable Bag')" class="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-2xl font-bold">Tukar</button>
-            </div>
-        </div>
-    </div>
-</div>
-</section>
+                <!-- Product Card 4 -->
+                <div class="product-card product-hover group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl shadow-xl overflow-hidden flex flex-col" data-category="produk">
+                    <div class="h-52 bg-gradient-to-br from-purple-500 to-purple-600 overflow-hidden">
+                        <img src="https://i.pinimg.com/736x/c2/9d/ed/c29ded06ca882fba287a06b1418d131f.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Sedotan Stainless">
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-900 mb-2">Sedotan Stainless Steel</h3>
+                            <p class="text-gray-600 text-sm mb-4">Ramah lingkungan, mudah dibersihkan</p>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-xl font-black text-primary">90 <span class="text-xs font-normal text-gray-500">Poin</span></span>
+                            <button onclick="bukaForm(90, 'Sedotan Stainless Steel')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                        </div>
+                    </div>
+                </div>
 
-<!-- Voucher & Gift Cards -->
-<section class="mb-20 transition group mission-card opacity-0 translate-y-8">
-    <h2 class="text-3xl font-black text-gray-900 mb-2 flex items-center gap-3">
-        <span class="w-3 h-3 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full transition group mission-card opacity-0 translate-y-8"></span>
-        Voucher & Gift Cards
-    </h2>
-    <p class="text-lg text-gray-600 mb-10">Nikmati diskon spesial dari partner EcoVend</p>
+                <!-- Product Card 5 -->
+                <div class="product-card product-hover group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl shadow-xl overflow-hidden flex flex-col" data-category="produk">
+                    <div class="h-52 bg-gradient-to-br from-purple-500 to-purple-600 overflow-hidden">
+                        <img src="https://i.pinimg.com/1200x/c2/8b/d1/c28bd126c063572c382894635ba46f16.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Eco Notebook">
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-900 mb-2">Eco Notebook</h3>
+                            <p class="text-gray-600 text-sm mb-4">Buku catatan ramah lingkungan, recycled paper</p>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-xl font-black text-primary">300 <span class="text-xs font-normal text-gray-500">Poin</span></span>
+                            <button onclick="bukaForm(300, 'Eco Notebook')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="grid md:grid-cols-3 gap-8">
-        <!-- Voucher Card -->
-        <div class="group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl p-6 shadow-2xl transition-transform hover:scale-105">
- <img src="https://i.pinimg.com/1200x/cc/9b/bb/cc9bbb4fca46f95c7e51ee9b7e5b133d.jpg" alt="Voucher Belanja" class="w-full h-40 object-cover rounded-2xl mb-4">
-            <h3 class="text-2xl font-bold mb-2 text-gray-900">Voucher Belanja</h3>
-            <p class="mb-4 text-gray-600">Diskon Rp100.000 untuk pembelian produk di Indomaret</p>
-            <div class="flex justify-between items-center">
-                <span class="text-xl font-black text-primary">800 Poin</span>
-                <button onclick="bukaForm(800, 'Voucher Belanja')" class="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-2xl font-bold">
-                    Tukar
-                </button>
-            </div>
-        </div>
+                <!-- Product Card 6 -->
+                <div class="product-card product-hover group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl shadow-xl overflow-hidden flex flex-col" data-category="produk">
+                    <div class="h-52 bg-gradient-to-br from-purple-500 to-purple-600 overflow-hidden">
+                        <img src="https://i.pinimg.com/736x/da/50/d3/da50d32583b5656902c7a238adbc40c4.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Lampu Hias Eco">
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-900 mb-2">Lampu Hias Eco</h3>
+                            <p class="text-gray-600 text-sm mb-4">Lampu hias daur ulang dari botol plastik</p>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-xl font-black text-primary">220 <span class="text-xs font-normal text-gray-500">Poin</span></span>
+                            <button onclick="bukaForm(220, 'Lampu Hias Eco')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- Voucher Card -->
-        <div class="group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl p-6 shadow-2xl transition-transform hover:scale-105">
-             <img src="https://i.pinimg.com/736x/8b/5d/69/8b5d6993fe08975b05c3a028aa4e5d2e.jpg" alt="Voucher Makanan" class="w-full h-40 object-cover rounded-2xl mb-4">
-            <h3 class="text-2xl font-bold mb-2 text-gray-900">Voucher Makanan</h3>
-            <p class="mb-4 text-gray-600">Diskon makanan sehat & ramah lingkungan</p>
-            <div class="flex justify-between items-center">
-                <span class="text-xl font-black text-primary">500 Poin</span>
-                <button onclick="bukaForm(500, 'Voucher Makanan')" class="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-2xl font-bold">
-                    Tukar
-                </button>
-            </div>
-        </div>
+                <!-- Voucher 1 -->
+                <div class="product-card product-hover group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl shadow-xl overflow-hidden flex flex-col" data-category="voucher">
+                    <div class="h-52 overflow-hidden">
+                        <img src="https://i.pinimg.com/1200x/cc/9b/bb/cc9bbb4fca46f95c7e51ee9b7e5b133d.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Voucher Belanja">
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-900 mb-2">Voucher Belanja Rp 100.000</h3>
+                            <p class="text-gray-600 text-sm mb-4">Dapat digunakan di seluruh Indomaret</p>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-xl font-black text-primary">800 <span class="text-xs font-normal text-gray-500">Poin</span></span>
+                            <button onclick="bukaForm(800, 'Voucher Belanja 100k')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- Voucher Card -->
-        <div class="group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl p-6 shadow-2xl transition-transform hover:scale-105">
-            <img src="https://i.pinimg.com/1200x/a7/a5/02/a7a5027d65d04142cba415a8c756cc49.jpg" alt="Voucher Travel" class="w-full h-40 object-cover rounded-2xl mb-4">
-            <h3 class="text-2xl font-bold mb-2 text-gray-900">Voucher Travel</h3>
-            <p class="mb-4 text-gray-600">Diskon transportasi ramah lingkungan</p>
-            <div class="flex justify-between items-center">
-                <span class="text-xl font-black text-primary">650 Poin</span>
-                <button onclick="bukaForm(650, 'Voucher Transport')" class="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-2xl font-bold">
-                    Tukar
-                </button> 
+                <!-- Voucher 2 -->
+                <div class="product-card product-hover group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl shadow-xl overflow-hidden flex flex-col" data-category="voucher">
+                    <div class="h-52 overflow-hidden">
+                        <img src="https://i.pinimg.com/736x/8b/5d/69/8b5d6993fe08975b05c3a028aa4e5d2e.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Voucher Makanan">
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-900 mb-2">Voucher Makanan Sehat</h3>
+                            <p class="text-gray-600 text-sm mb-4">Diskon 50% untuk makanan sehat & organik</p>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-xl font-black text-primary">500 <span class="text-xs font-normal text-gray-500">Poin</span></span>
+                            <button onclick="bukaForm(500, 'Voucher Makanan')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Voucher 3 -->
+                <div class="product-card product-hover group bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl shadow-xl overflow-hidden flex flex-col" data-category="voucher">
+                    <div class="h-52 overflow-hidden">
+                        <img src="https://i.pinimg.com/1200x/a7/a5/02/a7a5027d65d04142cba415a8c756cc49.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Voucher Travel">
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-900 mb-2">Voucher Transportasi</h3>
+                            <p class="text-gray-600 text-sm mb-4">Potongan harga untuk transportasi umum</p>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-xl font-black text-primary">650 <span class="text-xs font-normal text-gray-500">Poin</span></span>
+                            <button onclick="bukaForm(650, 'Voucher Transportasi')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
         <!-- CTA Section -->
-        <section class="bg-gradient-to-r from-primary to-secondary text-white rounded-3xl p-10 text-center shadow-2xl transition group mission-card opacity-0 translate-y-8">
-            <h2 class="text-4xl font-black mb-4">Yuk Kumpulkan Lebih Banyak Poin!</h2>
+        <section class="bg-gradient-to-r from-primary to-secondary text-white rounded-3xl p-8 md:p-10 text-center shadow-2xl mission-card">
+            <h2 class="text-2xl md:text-3xl font-black mb-4">Yuk Kumpulkan Lebih Banyak Poin!</h2>
             <p class="mb-6 text-lg">Setor sampahmu sekarang dan dapatkan lebih banyak reward menarik 🎁</p>
-            <a href="bank-sampah.html" class="bg-white text-primary px-8 py-4 rounded-2xl font-bold shadow hover:scale-105 transition">
+            <a href="bank-sampah.html" class="inline-block bg-white text-primary px-8 py-3.5 rounded-2xl font-bold shadow hover:scale-105 transition">
                 Mulai Setor Sampah
             </a>
         </section>
@@ -416,265 +399,235 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-300 pt-16 pb-8 mt-16">
-    <div class="max-w-7xl mx-auto px-4">
+    <footer class="bg-gray-900 text-gray-300 pt-12 pb-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+                <div class="col-span-2 md:col-span-1">
+                    <div class="flex items-center mb-4 gap-2">
+                        <img src="img/logo.png" alt="EcoVend Logo" class="h-8 object-contain" onerror="this.src='https://picsum.photos/id/1025/100'">
+                        <span class="text-xl font-bold text-white">EcoVend</span>
+                    </div>
+                    <p class="text-sm text-gray-400">
+                        Platform digital pengelolaan sampah berbasis poin untuk Indonesia yang lebih bersih.
+                    </p>
+                </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Platform</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html" class="hover:text-white transition">Beranda</a></li>
+                        <li><a href="bank-sampah.html" class="hover:text-white transition">Bank Sampah</a></li>
+                        <li><a href="misi.html" class="hover:text-white transition">Misi</a></li>
+                        <li><a href="marketplace.html" class="hover:text-white transition">Marketplace</a></li>
+                    </ul>
+                </div>
 
-            <div class="col-span-2 md:col-span-1">
-              <div class="flex items-center mb-4 gap-2">
-    <img src="img/logo.png" alt="EcoVend Logo" class="h-8 object-contain">
-    <span class="text-xl font-bold text-white">EcoVend</span>
-</div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Perusahaan</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="tentang.html" class="hover:text-white transition">Tentang Kami</a></li>
+                        <li><a href="#" class="hover:text-white transition">Kontak</a></li>
+                    </ul>
+                </div>
 
-                <p class="text-sm text-gray-400">
-                    Platform digital pengelolaan sampah berbasis poin untuk Indonesia yang lebih bersih.
-                </p>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="hover:text-white transition">Syarat & Ketentuan</a></li>
+                    </ul>
+                </div>
             </div>
 
-            <div>
-                <h4 class="text-white font-semibold mb-4">Platform</h4>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="index.html" class="footer-link">Beranda</a></li>
-                    <li><a href="bank-sampah.html" class="footer-link">Bank Sampah</a></li>
-                    <li><a href="misi.html" class="footer-link">Misi</a></li>
-                    <li><a href="marketplace.html" class="footer-link">Marketplace</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="text-white font-semibold mb-4">Perusahaan</h4>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="tentang.html" class="footer-link">Tentang Kami</a></li>
-                    <li><a href="#" class="footer-link">Karir</a></li>
-                    <li><a href="#" class="footer-link">Blog</a></li>
-                    <li><a href="#" class="footer-link">Kontak</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="text-white font-semibold mb-4">Legal</h4>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="#" class="footer-link">Kebijakan Privasi</a></li>
-                    <li><a href="#" class="footer-link">Syarat & Ketentuan</a></li>
-                </ul>
-            </div>
-
-        </div>
-
-        <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p class="text-sm text-gray-500">
+            <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
                 &copy; 2026 EcoVend. All rights reserved.
-            </p>
-
-            <div class="flex gap-4 mt-4 md:mt-0">
-                <a href="#" class="social-icon">
-                    <svg class="w-5 h-5" fill="currentColor">
-                        <path d="M24 4.557..."></path>
-                    </svg>
-                </a>
-                <a href="#" class="social-icon">
-                    <svg class="w-5 h-5" fill="currentColor">
-                        <path d="M12 2.163..."></path>
-                    </svg>
-                </a>
             </div>
         </div>
+    </footer>
 
+    <!-- Popup Form Penukaran -->
+    <div id="popupForm" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white p-6 rounded-2xl w-full max-w-md shadow-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Form Penukaran</h2>
+                <button onclick="tutupForm()" class="p-2 hover:bg-gray-100 rounded-xl">
+                    <i class="fas fa-times text-gray-600"></i>
+                </button>
+            </div>
+
+            <div class="mb-4 bg-emerald-50 p-3 rounded-xl">
+                <p class="text-sm">Kamu akan menukar poin untuk <br> <strong id="namaProdukPopup" class="text-primary"></strong></p>
+            </div>
+            
+            <input id="nama" placeholder="Nama Lengkap" class="w-full border p-3 mb-3 rounded-xl outline-none focus:border-primary">
+            <input id="alamat" placeholder="Alamat Lengkap Pengiriman" class="w-full border p-3 mb-3 rounded-xl outline-none focus:border-primary">
+            <input id="hp" placeholder="No. HP" inputmode="tel" class="w-full border p-3 mb-4 rounded-xl outline-none focus:border-primary">
+
+            <button onclick="konfirmasiTukar()" class="w-full bg-gradient-to-r from-primary to-secondary text-white py-3.5 rounded-xl font-bold">
+                Konfirmasi Tukar
+            </button>
+        </div>
     </div>
-</footer>
+
+    <!-- Popup Sukses -->
+    <div id="popupSuccess" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white p-8 rounded-2xl w-full max-w-sm text-center shadow-2xl">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check text-3xl text-green-600"></i>
+            </div>
+            <h2 class="text-xl font-bold mb-2">Berhasil Ditukarkan!</h2>
+            <p class="text-gray-600 mb-4">Kamu berhasil menukar <strong id="namaVoucher"></strong></p>
+            <p class="text-sm text-gray-500 mb-6">Produk akan dikirimkan maksimal 3 hari kerja</p>
+            <button onclick="tutupSuccess()" class="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 rounded-xl font-bold">
+                Oke, Mengerti
+            </button>
+        </div>
+    </div>
 
     <script>
-let poin = localStorage.getItem("poin") 
-    ? parseInt(localStorage.getItem("poin")) 
-    : 2847 + " Poin";
+        // Global Variable
+        let poin = localStorage.getItem("poin") ? parseInt(localStorage.getItem("poin")) : 2847;
+        let hargaDipilih = 0;
+        let produkDipilih = "";
 
-let hargaDipilih = 0;
-let produkDipilih = "";
+        // Update UI Poin
+        function updateUI(){
+            document.getElementById("saldoPoin").innerText = poin.toLocaleString("id-ID") + " Poin";
+        }
 
-// tampilkan poin
-function updateUI(){
-    document.getElementById("saldoPoin").innerText = poin.toLocaleString();
-}
+        // Buka Form Penukaran
+        function bukaForm(harga, produk){
+            hargaDipilih = harga;
+            produkDipilih = produk;
+            
+            document.getElementById("namaProdukPopup").innerText = produk;
 
-// buka popup
-function bukaForm(harga, produk){
-    hargaDipilih = harga;
-    produkDipilih = produk;
+            const popup = document.getElementById("popupForm");
+            popup.classList.remove("hidden");
+            popup.classList.add("flex");
+            document.body.classList.add("modal-open");
+        }
 
-    let popup = document.getElementById("popupForm");
-    popup.classList.remove("hidden");
-    popup.classList.add("flex");
-}
+        // Tutup Form
+        function tutupForm(){
+            const popup = document.getElementById("popupForm");
+            popup.classList.add("hidden");
+            popup.classList.remove("flex");
+            document.body.classList.remove("modal-open");
+        }
 
-// tutup popup
-function tutupForm(){
-    let popup = document.getElementById("popupForm");
-    popup.classList.add("hidden");
-    popup.classList.remove("flex");
-}
+        // Proses Konfirmasi Tukar
+        function konfirmasiTukar(){
+            const nama = document.getElementById("nama").value.trim();
+            const alamat = document.getElementById("alamat").value.trim();
+            const hp = document.getElementById("hp").value.trim();
 
-// konfirmasi tukar
-function konfirmasiTukar(){
-    let nama = document.getElementById("nama").value.trim();
-    let alamat = document.getElementById("alamat").value.trim();
-    let hp = document.getElementById("hp").value.trim();
+            if(!nama || !alamat || !hp){
+                alert("⚠️ Harap isi semua data dengan lengkap!");
+                return;
+            }
 
-    if(!nama || !alamat || !hp){
-        alert("⚠️ Harap isi semua data!");
-        return;
-    }
+            if(poin < hargaDipilih){
+                alert("❌ Maaf poin kamu tidak cukup untuk menukar produk ini");
+                return;
+            }
 
-    if(poin < hargaDipilih){
-        alert("❌ Poin kamu tidak cukup!");
-        return;
-    }
+            // Potong Poin
+            poin -= hargaDipilih;
+            localStorage.setItem("poin", poin);
+            updateUI();
 
-    // potong poin
-    poin -= hargaDipilih;
-    localStorage.setItem("poin", poin);
+            // Tutup Form
+            tutupForm();
 
-    updateUI();
+            // Reset Form
+            document.getElementById("nama").value = "";
+            document.getElementById("alamat").value = "";
+            document.getElementById("hp").value = "";
 
-    alert(`✅ Berhasil menukar ${produkDipilih}
-📦 Dikirim ke: ${alamat}`);
+            // Tampilkan Popup Sukses
+            document.getElementById("namaVoucher").innerText = produkDipilih;
+            document.getElementById("popupSuccess").classList.remove("hidden");
+            document.getElementById("popupSuccess").classList.add("flex");
+        }
 
-    // reset form
-    document.getElementById("nama").value = "";
-    document.getElementById("alamat").value = "";
-    document.getElementById("hp").value = "";
+        // Tutup Popup Sukses
+        function tutupSuccess(){
+            document.getElementById("popupSuccess").classList.add("hidden");
+            document.getElementById("popupSuccess").classList.remove("flex");
+            document.body.classList.remove("modal-open");
+        }
 
-    tutupForm();
-}
+        // Kategori Filter
+        document.querySelectorAll(".category-tab").forEach(tab => {
+            tab.addEventListener("click", function(){
+                const filter = this.dataset.filter;
+                
+                // Update Active Tab
+                document.querySelectorAll(".category-tab").forEach(t => {
+                    t.classList.remove("active", "bg-emerald-100", "text-primary");
+                    t.classList.add("text-gray-600");
+                });
+                this.classList.add("active", "bg-emerald-100", "text-primary");
 
-// animasi klik tombol (sekali saja)
-document.querySelectorAll("button").forEach(btn => {
-    btn.addEventListener("click", () => {
-        btn.classList.add("scale-95");
-        setTimeout(() => btn.classList.remove("scale-95"), 150);
-    });
-});
-
-// load awal
-updateUI();
-</script>
-
-<!-- POPUP FORM -->
-<div id="popupForm" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
-    <div class="bg-white p-6 rounded-2xl w-11/12 max-w-md">
-        <h2 class="text-xl font-bold mb-4">Masukkan Alamat</h2>
-        
-        <input id="nama" placeholder="Nama" class="w-full border p-2 mb-3 rounded">
-        <input id="alamat" placeholder="Alamat Lengkap" class="w-full border p-2 mb-3 rounded">
-        <input id="hp" placeholder="No HP" class="w-full border p-2 mb-4 rounded">
-
-        <script>
-function konfirmasiTukar(){
-    let nama = document.getElementById("nama").value.trim();
-    let alamat = document.getElementById("alamat").value.trim();
-    let hp = document.getElementById("hp").value.trim();
-
-    if(!nama || !alamat || !hp){
-        alert("⚠️ Harap isi semua data!");
-        return;
-    }
-
-    if(poin < hargaDipilih){
-        alert("❌ Poin kamu tidak cukup!");
-        return;
-    }
-
-    // potong poin
-    poin -= hargaDipilih;
-    localStorage.setItem("poin", poin);
-    updateUI();
-
-    // tampilkan popup sukses
-    document.getElementById("popupSuccess").classList.remove("hidden");
-    document.getElementById("popupSuccess").classList.add("flex");
-
-    document.getElementById("namaVoucher").innerText = produkDipilih;
-
-    // reset form
-    document.getElementById("nama").value = "";
-    document.getElementById("alamat").value = "";
-    document.getElementById("hp").value = "";
-
-    tutupForm();
-}
-
-const avatarBtn = document.getElementById('avatarBtn');
-const dropdownMenu = document.getElementById('dropdownMenu');
-
-avatarBtn.addEventListener('click', () => {
-    if (dropdownMenu.classList.contains('opacity-0')) {
-        // Show dropdown
-        dropdownMenu.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
-        dropdownMenu.classList.add('opacity-100', 'scale-100');
-    } else {
-        // Hide dropdown
-        dropdownMenu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
-        dropdownMenu.classList.remove('opacity-100', 'scale-100');
-    }
-});
-
-// Optional: close dropdown when click outside
-document.addEventListener('click', (e) => {
-    if (!avatarBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
-        dropdownMenu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
-        dropdownMenu.classList.remove('opacity-100', 'scale-100');
-    }
-});
-
-function tutupSuccess(){
-    let popup = document.getElementById("popupSuccess");
-    popup.classList.add("hidden");
-    popup.classList.remove("flex");
-}
-
- // Page Entrance Animation
-    function initAnimations() {
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('slide-up');
-                }
+                // Filter Product
+                document.querySelectorAll(".product-card").forEach(card => {
+                    if(filter === "all"){
+                        card.style.display = "flex";
+                    } else if(card.dataset.category === filter){
+                        card.style.display = "flex";
+                    } else {
+                        card.style.display = "none";
+                    }
+                });
             });
-        }, observerOptions);
-
-        // Observe hero and star
-        const heroSection = document.querySelector('.hero-section');
-        const starSection = document.querySelector('.star-section');
-        if (heroSection) observer.observe(heroSection);
-        if (starSection) observer.observe(starSection);
-
-        // Stagger mission cards
-        const missionCards = document.querySelectorAll('.mission-card');
-        missionCards.forEach((card, index) => {
-            card.style.animationDelay = `${index * 0.1 + 0.4}s`;
-            observer.observe(card);
         });
 
-        entry.target.style.animationDelay = `${index * 0.1 + 0.4}s`;
-        entry.target.classList.add('slide-up');
+        // Avatar Dropdown
+        const avatarBtn = document.getElementById('avatarBtn');
+        const dropdownMenu = document.getElementById('dropdownMenu');
 
-        // Trigger hero immediately for instant feedback
-        setTimeout(() => {
-            if (heroSection) heroSection.classList.add('slide-up');
-        }, 100);
-    }
+        avatarBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('opacity-0');
+            dropdownMenu.classList.toggle('scale-95');
+            dropdownMenu.classList.toggle('pointer-events-none');
+        });
 
-    // Init after DOM ready
-    setTimeout(initAnimations, 50);
+        // Mobile Menu
+        const mobileBtn = document.getElementById('mobileBtn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('show');
+        });
 
-    mobileBtn.addEventListener('click', function () {
-    mobileMenu.classList.toggle('show');
-});
-</script>
+        // Close dropdown when click outside
+        document.addEventListener('click', () => {
+            dropdownMenu.classList.add('opacity-0','scale-95','pointer-events-none');
+        });
+
+        // Entrance Animation
+        function initAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('slide-up');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.mission-card').forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                observer.observe(card);
+            });
+        }
+
+        // Inisialisasi Awal
+        document.addEventListener("DOMContentLoaded", () => {
+            updateUI();
+            initAnimations();
+        });
+    </script>
 </body>
 </html>
