@@ -7,7 +7,8 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <script>
 tailwind.config = {
@@ -17,56 +18,74 @@ tailwind.config = {
                 sans: ['Plus Jakarta Sans', 'sans-serif'],
             },
             colors: {
-                primary: '#16a34a',
-                secondary: '#15803d',
-                accent: '#eab308',
+                primary: '#13601f',
+                        secondary: '#13601f',
+                light: '#dcfce7'
             }
         }
     }
 }
 </script>
+
+<style>
+/* ANIMASI RINGAN */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-up {
+  animation: fadeUp 0.5s ease-out forwards;
+}
+
+.reveal {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+</style>
 </head>
 
 <body class="bg-gray-50 font-sans">
 
 <!-- NAVBAR -->
-<nav class="bg-white shadow-sm sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+<nav class="bg-white/80 backdrop-blur-xl shadow-xl sticky top-0 z-50 border-b border-white/50">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3 group">
+  <img src="logo.png" 
+       class="w-10 h-10 object-contain group-hover:scale-110 transition duration-300"
+       alt="EcoVend Logo">
 
-        <a href="index.html" class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">
-                E
+  <span class="font-black text-xl text-gray-900">
+    EcoVend
+  </span>
+</a>
+
+            <!-- Menu -->
+            <div class="hidden md:flex items-center gap-10">
+                <a href="index.html" class="text-gray-600 hover:text-primary font-medium px-3 py-2 rounded-lg transition-all duration-300 hover:bg-emerald-50">
+                    <i class="fas fa-home mr-1"></i>Beranda
+                </a>
+                <a href="bank-sampah.html" class="text-gray-600 hover:text-primary font-medium px-3 py-2 rounded-lg transition-all duration-300 hover:bg-emerald-50">
+                    <i class="fas fa-recycle mr-1"></i>Bank Sampah
+                </a>
+                <a href="misi.html" class="text-gray-600 hover:text-primary font-medium px-3 py-2 rounded-lg transition-all duration-300 hover:bg-emerald-50">
+                    <i class="fas fa-trophy mr-1"></i>Misi
+                </a>
+                <a href="marketplace.html" class="text-gray-600 hover:text-primary font-medium px-3 py-2 rounded-lg transition-all duration-300 hover:bg-emerald-50">
+                    <i class="fas fa-store mr-1"></i>Marketplace
+                </a>
             </div>
-            <span class="font-bold text-xl text-gray-800">EcoVend</span>
-        </a>
 
-        <div class="hidden md:flex items-center gap-8">
-           <a href="index.html" class="text-gray-600 hover:text-primary transition">
-                Beranda
-            </a>
-
-            <a href="bank-sampah.html" class="text-gray-600 hover:text-primary transition">
-                Bank Sampah
-            </a>
-
-            <a href="misi.html" class="text-gray-600 hover:text-primary transition">
-                Misi
-            </a>
-
-             <a href="edukasi.html" class="text-gray-600 hover:text-primary transition">
-                Edukasi 
-            </a>
-
-            <a href="marketplace.html" class="text-gray-600 hover:text-primary transition">
-                Marketplace
-            </a>
-        </div>
-<div class="relative">
-
-    <!-- AVATAR BUTTON -->
-    <button id="avatarBtn" class="flex items-center gap-2 group">
+            <!-- Auth -->
+            <button id="avatarBtn" class="flex items-center gap-2 group">
         <img src="https://media.tenor.com/lE64r8h8qIEAAAAe/anaxa-hsr.png" 
-             class="w-10 h-10 rounded-full border-2 border-green-500 group-hover:scale-105 transition">
+             class="w-10 h-10 rounded-full border-2 border-primary group-hover:scale-105 transition">
 
         <span class="hidden sm:block text-sm font-semibold text-gray-700 group-hover:text-primary">
             Anaxa
@@ -96,117 +115,157 @@ tailwind.config = {
         </a>
 
     </div>
+        </div>
+    </nav>
+
+<!-- CONTENT -->
+<main class="max-w-7xl mx-auto px-4 py-10">
+
+<!-- HEADER -->
+<div class="mb-10 reveal">
+<h1 class="text-3xl font-extrabold mb-2">Halo, Anaxa 👋</h1>
+<p class="text-gray-500">Selamat datang kembali di EcoVend</p>
+</div>
+
+<!-- STATS -->
+<div class="grid md:grid-cols-4 gap-6 mb-10">
+
+<div class="bg-primary text-white p-6 rounded-2xl shadow reveal">
+<p class="text-sm opacity-80">Total Poin</p>
+<h2 class="text-3xl font-bold mt-2">1,250</h2>
+</div>
+
+<div class="bg-white p-6 rounded-2xl shadow reveal">
+<p class="text-gray-500 text-sm">Misi Selesai</p>
+<h2 class="text-2xl font-bold mt-2">24</h2>
+</div>
+
+<div class="bg-white p-6 rounded-2xl shadow reveal">
+<p class="text-gray-500 text-sm">Sampah Didaur Ulang</p>
+<h2 class="text-2xl font-bold mt-2">120 Kg</h2>
+</div>
+
+<div class="bg-white p-6 rounded-2xl shadow reveal">
+<p class="text-gray-500 text-sm">Ranking</p>
+<h2 class="text-2xl font-bold mt-2">#12</h2>
+</div>
 
 </div>
 
+<!-- GRID -->
+<div class="grid md:grid-cols-3 gap-6">
+
+<!-- MISI -->
+<div class="md:col-span-2 bg-white p-6 rounded-2xl shadow reveal">
+
+<h2 class="font-bold text-lg mb-4">Misi Aktif</h2>
+
+<div class="space-y-4">
+
+<div class="flex justify-between items-center border p-4 rounded-xl">
+<span>♻️ Daur ulang plastik</span>
+<span class="text-primary font-semibold">+200</span>
+</div>
+
+<div class="flex justify-between items-center border p-4 rounded-xl">
+<span>🛍️ Gunakan tas reusable</span>
+<span class="text-primary font-semibold">+150</span>
+</div>
+
+</div>
+
+</div>
+
+<!-- SIDEBAR -->
+<div class="bg-white p-6 rounded-2xl shadow reveal">
+
+<h2 class="font-bold text-lg mb-4">Progress</h2>
+
+<div class="mb-4">
+<p class="text-sm text-gray-500 mb-1">Level 3</p>
+<div class="w-full bg-gray-200 rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 60%"></div>
+</div>
+</div>
+
+<button class="w-full bg-primary text-white py-2 rounded-full mt-4">
+Naik Level 🚀
+</button>
+
+</div>
+
+</div>
+
+<!-- RIWAYAT AKTIVITAS -->
+<div class="mt-10 bg-white p-6 rounded-2xl shadow reveal">
+
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-lg font-bold">Riwayat Aktivitas</h2>
+    <button class="text-sm text-primary font-semibold">Lihat Semua</button>
+  </div>
+
+  <div class="space-y-4">
+
+    <!-- ITEM -->
+    <div class="flex items-center justify-between border-b pb-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 flex items-center justify-center bg-green-100 text-green-600 rounded-full">
+          ♻️
+        </div>
+        <div>
+          <p class="text-sm font-semibold">Daur ulang plastik</p>
+          <p class="text-xs text-gray-500">Hari ini • 14:32</p>
+        </div>
+      </div>
+      <span class="text-green-600 font-bold">+200</span>
     </div>
-</nav>
 
-<!-- HEADER -->
-<section class="py-12">
-    <div class="max-w-7xl mx-auto px-4">
-        <h1 class="text-2xl md:text-3xl font-bold mb-2">
-            Halo, Anaxa 👋
-        </h1>
-        <p class="text-gray-600">
-            Selamat datang kembali, lanjutkan kontribusimu hari ini.
-        </p>
+    <!-- ITEM -->
+    <div class="flex items-center justify-between border-b pb-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-600 rounded-full">
+          🛍️
+        </div>
+        <div>
+          <p class="text-sm font-semibold">Gunakan tas reusable</p>
+          <p class="text-xs text-gray-500">Kemarin • 10:12</p>
+        </div>
+      </div>
+      <span class="text-green-600 font-bold">+150</span>
     </div>
-</section>
 
-<!-- STATS -->
-<section class="pb-10">
-    <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6">
-
-        <!-- HERO CARD -->
-        <div class="bg-gradient-to-r from-primary to-secondary text-white p-6 rounded-2xl shadow-md">
-            <p class="text-sm opacity-80">Total Poin</p>
-            <h3 class="text-3xl font-bold">1.250</h3>
+    <!-- ITEM -->
+    <div class="flex items-center justify-between border-b pb-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 flex items-center justify-center bg-yellow-100 text-yellow-600 rounded-full">
+          🎁
         </div>
-
-        <!-- CARD -->
-        <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition flex items-center gap-4">
-            <div class="w-12 h-12 bg-green-100 text-primary rounded-xl flex items-center justify-center">♻️</div>
-            <div>
-                <p class="text-sm text-gray-500">Sampah</p>
-                <h3 class="text-xl font-bold">32 Kg</h3>
-            </div>
+        <div>
+          <p class="text-sm font-semibold">Redeem Tumbler</p>
+          <p class="text-xs text-gray-500">2 hari lalu</p>
         </div>
-
-        <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition flex items-center gap-4">
-            <div class="w-12 h-12 bg-yellow-100 text-yellow-600 rounded-xl flex items-center justify-center">🎯</div>
-            <div>
-                <p class="text-sm text-gray-500">Misi</p>
-                <h3 class="text-xl font-bold">12</h3>
-            </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition flex items-center gap-4">
-            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center">⭐</div>
-            <div>
-                <p class="text-sm text-gray-500">Level</p>
-                <h3 class="text-xl font-bold">Eco Hero</h3>
-            </div>
-        </div>
-
+      </div>
+      <span class="text-red-500 font-bold">-500</span>
     </div>
-</section>
 
-<!-- AKSI CEPAT -->
-<section class="pb-12 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4">
-
-        <h2 class="text-xl font-bold mb-6">Aksi Cepat</h2>
-
-        <div class="grid md:grid-cols-3 gap-6">
-
-            <a href="#" class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition">
-                <h3 class="font-semibold mb-1">Setor Sampah</h3>
-                <p class="text-sm text-gray-500">Jadwalkan atau setor langsung</p>
-            </a>
-
-            <a href="misi.html" class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition">
-                <h3 class="font-semibold mb-1">Lihat Misi</h3>
-                <p class="text-sm text-gray-500">Selesaikan misi harian</p>
-            </a>
-
-            <a href="marketplace.html" class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition">
-                <h3 class="font-semibold mb-1">Tukar Poin</h3>
-                <p class="text-sm text-gray-500">Belanja produk eco</p>
-            </a>
-
+    <!-- ITEM -->
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 flex items-center justify-center bg-purple-100 text-purple-600 rounded-full">
+          👥
         </div>
-
-    </div>
-</section>
-
-<!-- AKTIVITAS -->
-<section class="pb-16">
-    <div class="max-w-7xl mx-auto px-4">
-
-        <h2 class="text-xl font-bold mb-6">Aktivitas Terakhir</h2>
-
-        <div class="bg-white rounded-2xl shadow-sm divide-y">
-
-            <div class="p-4 flex justify-between text-sm">
-                <span>Setor sampah plastik</span>
-                <span class="text-primary font-semibold">+200 poin</span>
-            </div>
-
-            <div class="p-4 flex justify-between text-sm">
-                <span>Menyelesaikan misi harian</span>
-                <span class="text-primary font-semibold">+100 poin</span>
-            </div>
-
-            <div class="p-4 flex justify-between text-sm">
-                <span>Menukar poin di marketplace</span>
-                <span class="text-red-500 font-semibold">-300 poin</span>
-            </div>
-
+        <div>
+          <p class="text-sm font-semibold">Ajak teman</p>
+          <p class="text-xs text-gray-500">3 hari lalu</p>
         </div>
-
+      </div>
+      <span class="text-green-600 font-bold">+250</span>
     </div>
-</section>
+
+  </div>
+</div>
+
+</main>
 
 <footer class="bg-gray-900 text-gray-300 pt-16 pb-8 mt-16">
     <div class="max-w-7xl mx-auto px-4">
@@ -214,12 +273,10 @@ tailwind.config = {
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
 
             <div class="col-span-2 md:col-span-1">
-                <div class="flex items-center mb-4">
-                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center mr-2">
-                        <span class="text-white font-bold text-lg">E</span>
-                    </div>
-                    <span class="text-xl font-bold text-white">EcoVend</span>
-                </div>
+              <div class="flex items-center mb-4 gap-2">
+    <img src="logo.png" alt="EcoVend Logo" class="h-8 object-contain">
+    <span class="text-xl font-bold text-white">EcoVend</span>
+</div>
 
                 <p class="text-sm text-gray-400">
                     Platform digital pengelolaan sampah berbasis poin untuk Indonesia yang lebih bersih.
@@ -277,6 +334,22 @@ tailwind.config = {
 
     </div>
 </footer>
+
+<script>
+// ANIMASI RINGAN (ANTI LAG)
+const observer = new IntersectionObserver((entries, obs) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('animate-up');
+      obs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => {
+  observer.observe(el);
+});
+</script>
 
 </body>
 </html>
