@@ -118,6 +118,125 @@
     body {
         overscroll-behavior-y: contain;
     }
+
+    /* ========== CUSTOM REWARD MODAL MARKETPLACE STYLE ========== */
+    .reward-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.6);
+        backdrop-filter: blur(6px);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.4s ease;
+        padding: 20px;
+    }
+    .reward-modal.show {
+        opacity: 1;
+        pointer-events: all;
+    }
+    .reward-card {
+        background: white;
+        border-radius: 32px;
+        max-width: 380px;
+        width: 100%;
+        text-align: center;
+        transform: translateY(100px) scale(0.8);
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        overflow: hidden;
+        position: relative;
+    }
+    .reward-modal.show .reward-card {
+        transform: translateY(0) scale(1);
+    }
+    .reward-header {
+        background: linear-gradient(135deg, #15803d 0%, #13601f 100%);
+        padding: 40px 20px 30px;
+        color: white;
+        position: relative;
+    }
+    .reward-icon {
+        width: 80px;
+        height: 80px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+        font-size: 40px;
+        animation: pop 0.6s ease 0.2s both;
+    }
+    @keyframes pop {
+        0% { transform: scale(0); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+    .reward-point {
+        font-size: 52px;
+        font-weight: 900;
+        line-height: 1;
+        margin-bottom: 8px;
+    }
+    .reward-body {
+        padding: 24px;
+    }
+    .reward-title {
+        font-size: 22px;
+        font-weight: 800;
+        margin-bottom: 8px;
+        color: #1f2937;
+    }
+    .reward-desc {
+        color: #6b7280;
+        margin-bottom: 20px;
+    }
+    .reward-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #15803d, #13601f);
+        color: white;
+        border: none;
+        padding: 14px 24px;
+        border-radius: 16px;
+        font-weight: 700;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .reward-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(19, 96, 31, 0.3);
+    }
+    .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        animation: confetti-fall 1.5s ease-out forwards;
+        opacity: 0;
+    }
+    @keyframes confetti-fall {
+        0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+        100% { opacity: 0; transform: translateY(150px) rotate(720deg); }
+    }
+    .flying-point {
+        position: fixed;
+        font-weight: 900;
+        font-size: 24px;
+        color: #eab308;
+        pointer-events: none;
+        z-index: 9999;
+        animation: flyToPoint 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        text-shadow: 0 2px 8px rgba(234, 179, 8, 0.5);
+    }
+    @keyframes flyToPoint {
+        0% { opacity: 1; transform: scale(1.5); }
+        100% { opacity: 0; transform: scale(0.5) translateY(-100px); }
+    }
+
 </style>
 
 </head>
@@ -329,7 +448,7 @@
                     <h3 class="tas">Pengumpulan Limbah Elektronik</h3>
                     <p class="text-sm text-gray-500 mb-4">Kumpulkan limbah elektronik rusak untuk didaur ulang dengan aman.</p>
                     <div class="flex justify-between items-center">
-                        <button class="ton mission-btn" data-point="250">Mulai Misi</button>
+                        <button class="ton mission-btn" data-point="150">Mulai Misi</button>
                         <button class="icon-btn share-btn">
                             <svg class="icon" viewBox="0 0 24 24">
                                 <path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342
@@ -447,7 +566,6 @@
                     <h4 class="text-white font-semibold mb-4">Perusahaan</h4>
                     <ul class="space-y-2 text-sm">
                         <li><a href="tentang.html" class="hover:text-white transition">Tentang Kami</a></li>
-                        <li><a href="#" class="hover:text-white transition">Kontak</a></li>
                     </ul>
                 </div>
 
@@ -465,6 +583,22 @@
             </div>
         </div>
     </footer>
+
+    <!-- REWARD MODAL MARKETPLACE STYLE -->
+    <div id="rewardModal" class="reward-modal">
+        <div class="reward-card">
+            <div class="reward-header">
+                <div class="reward-icon">🎉</div>
+                <div class="reward-point" id="rewardPointAmount">+200</div>
+                <div class="font-semibold opacity-90">Poin Berhasil Ditambahkan!</div>
+            </div>
+            <div class="reward-body">
+                <div class="reward-title">Selamat!</div>
+                <div class="reward-desc">Kamu berhasil menyelesaikan misi dan mendapatkan poin tambahan. Terus jaga bumi kita ya ✨</div>
+                <button class="reward-btn" id="closeRewardBtn">Oke, Mengerti</button>
+            </div>
+        </div>
+    </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -503,25 +637,113 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ===== SISTEM MISI =====
+    // ===== SISTEM MISI BARU MARKETPLACE STYLE =====
     document.querySelectorAll(".mission-btn").forEach(btn => {
         btn.addEventListener("click", function(){
             const point = parseInt(this.dataset.point);
+
             if(this.innerText === "Mulai Misi"){
                 this.innerText = "Selesaikan Misi";
                 this.classList.add("progress");
             } 
             else if(this.innerText === "Selesaikan Misi"){
-                poin += point;
-                localStorage.setItem("poin", poin);
-                updatePoinUI();
-                this.innerText = "✅ Selesai";
+                this.innerText = "Selesai";
                 this.classList.remove("progress");
                 this.classList.add("done");
-                alert(`🎉 Selamat! Kamu mendapatkan ${point} poin!`);
+
+                // 1. Animasi poin terbang ke saldo
+                const rect = this.getBoundingClientRect();
+                
+                const flyEl = document.createElement('div');
+                flyEl.classList.add('flying-point');
+                flyEl.innerText = `+${point}`;
+                flyEl.style.left = `${rect.left + rect.width/2}px`;
+                flyEl.style.top = `${rect.top}px`;
+                document.body.appendChild(flyEl);
+
+                // 2. Suara lonceng reward (hapus baris ini jika tidak mau suara)
+                try { new Audio('https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3').play().catch(() => {}) } catch(e) {}
+
+                // 3. Update poin dengan animasi hitung
+                const oldPoin = poin;
+                poin += point;
+                localStorage.setItem("poin", poin);
+                
+                animateCounter(oldPoin, poin, 800);
+
+                // 4. Hapus elemen terbang setelah selesai
+                setTimeout(() => flyEl.remove(), 1000);
+
+                // 5. Buka modal reward setelah animasi selesai
+                setTimeout(() => {
+                    openRewardModal(point);
+                    spawnConfetti();
+                }, 1100);
             }
         });
     });
+
+    // Fungsi animasi hitung angka smooth
+    function animateCounter(from, to, duration) {
+        const el = document.getElementById('saldoPoin');
+        const start = from;
+        const end = to;
+        const startTime = performance.now();
+
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+            const current = Math.floor(start + (end - start) * easeOut);
+            
+            el.innerText = current.toLocaleString('id-ID') + ' Poin';
+
+            if(progress < 1) requestAnimationFrame(update);
+        }
+
+        requestAnimationFrame(update);
+    }
+
+    // Fungsi buka tutup modal
+    function openRewardModal(point) {
+        const modal = document.getElementById('rewardModal');
+        document.getElementById('rewardPointAmount').innerText = `+${point}`;
+        modal.classList.add('show');
+    }
+
+    function closeRewardModal() {
+        document.getElementById('rewardModal').classList.remove('show');
+    }
+
+    document.getElementById('closeRewardBtn').addEventListener('click', closeRewardModal);
+    document.getElementById('rewardModal').addEventListener('click', (e) => {
+        if(e.target === e.currentTarget) closeRewardModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape') closeRewardModal();
+    });
+
+    // Efek konfetti ringan
+    function spawnConfetti() {
+        const colors = ['#eab308', '#15803d', '#ef4444', '#3b82f6', '#a855f7'];
+        const card = document.querySelector('.reward-card');
+
+        for(let i = 0; i < 30; i++) {
+            setTimeout(() => {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.top = '0px';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                confetti.style.width = `${Math.random() * 8 + 4}px`;
+                confetti.style.height = confetti.style.width;
+                
+                card.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 2000);
+            }, i * 20);
+        }
+    }
 
     // ===== ANIMASI =====
     function initAnimations() {

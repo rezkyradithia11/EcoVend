@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tentang & Kontak - EcoVend</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }, colors: { primary: '#13601f', secondary: '#15803d', accent: '#eab308' } } }
+        }
+    </script>
+<style>
+    * {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
+    body {
+        overscroll-behavior-y: contain;
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(40px) scale(0.98); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .slide-up {
+        animation: slideUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+    .card {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    #mobile-menu {
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+    }
+    #mobile-menu.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    button, a {
+        min-height: 48px;
+        min-width: 48px;
+    }
+
+    /* Modal yang sama seperti halaman lain */
+    .reward-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.6);
+        backdrop-filter: blur(6px);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.4s ease;
+        padding: 20px;
+    }
+    .reward-modal.show {
+        opacity: 1;
+        pointer-events: all;
+    }
+    .reward-card {
+        background: white;
+        border-radius: 32px;
+        max-width: 380px;
+        width: 100%;
+        text-align: center;
+        transform: translateY(100px) scale(0.8);
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        overflow: hidden;
+        position: relative;
+    }
+    .reward-modal.show .reward-card {
+        transform: translateY(0) scale(1);
+    }
+    .reward-header {
+        background: linear-gradient(135deg, #15803d 0%, #13601f 100%);
+        padding: 40px 20px 30px;
+        color: white;
+        position: relative;
+    }
+    .reward-icon {
+        width: 80px;
+        height: 80px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+        font-size: 40px;
+        animation: pop 0.6s ease 0.2s both;
+    }
+    @keyframes pop {
+        0% { transform: scale(0); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+    .reward-body {
+        padding: 24px;
+    }
+    .reward-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #15803d, #13601f);
+        color: white;
+        border: none;
+        padding: 14px 24px;
+        border-radius: 16px;
+        font-weight: 700;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        animation: confetti-fall 1.5s ease-out forwards;
+        opacity: 0;
+    }
+    @keyframes confetti-fall {
+        0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+        100% { opacity: 0; transform: translateY(150px) rotate(720deg); }
+    }
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+    .shake {
+        animation: shake 0.4s ease;
+    }
+
+    .stat-number {
+        font-variant-numeric: tabular-nums;
+    }
+</style>
+
+</head>
+<body class="font-sans antialiased bg-gray-50 text-gray-800 min-h-screen">
+
+<nav class="bg-white/85 backdrop-blur-xl shadow-xl sticky top-0 z-50 border-b border-white/50">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+        <a href="index.html" class="flex items-center gap-3 group">
+            <img src="img/logo.png" 
+                 class="w-10 h-10 object-contain group-hover:scale-110 transition duration-300"
+                 alt="EcoVend Logo"
+                 onerror="this.src='https://picsum.photos/id/1025/100'">
+            <span class="font-black text-xl text-gray-900">EcoVend</span>
+        </a>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center gap-6 lg:gap-8">
+            <a href="index.html" class="text-gray-600 hover:text-primary font-medium px-3 py-2 rounded-lg transition-all duration-300 hover:bg-emerald-50">
+                <i class="fas fa-home mr-1"></i>Beranda
+            </a>
+            <a href="bank-sampah.html" class="text-gray-600 hover:text-primary font-medium px-3 py-2 rounded-lg transition-all duration-300 hover:bg-emerald-50">
+                <i class="fas fa-recycle mr-1"></i>Bank Sampah
+            </a>
+            <a href="misi.html" class="text-gray-600 hover:text-primary font-medium px-3 py-2 rounded-lg transition-all duration-300 hover:bg-emerald-50">
+                <i class="fas fa-trophy mr-1"></i>Misi
+            </a>
+            <a href="marketplace.html" class="text-gray-600 hover:text-primary font-medium px-3 py-2 rounded-lg transition-all duration-300 hover:bg-emerald-50">
+                <i class="fas fa-store mr-1"></i>Marketplace
+            </a>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <div class="relative">
+                <button id="avatarBtn" class="flex items-center gap-2 p-1 rounded-full group">
+                    <img src="https://media.tenor.com/lE64r8h8qIEAAAAe/anaxa-hsr.png" 
+                         class="w-10 h-10 rounded-full border-2 border-primary group-hover:scale-105 transition">
+                    <span class="hidden sm:block text-sm font-semibold text-gray-700 group-hover:text-primary">
+                        Anaxa
+                    </span>
+                </button>
+
+                <div id="dropdownMenu" 
+                     class="absolute right-0 mt-3 w-48 bg-white rounded-2xl shadow-lg py-2 border
+                            opacity-0 scale-95 transform transition-all duration-200 origin-top-right pointer-events-none z-50">
+                    <a href="dashboard.html" 
+                       class="flex items-center gap-2 px-4 py-3 text-sm hover:bg-gray-100 transition">
+                        🏠 Dashboard
+                    </a>
+                    <a href="profil.html" 
+                       class="flex items-center gap-2 px-4 py-3 text-sm hover:bg-gray-100 transition">
+                        👤 Profil
+                    </a>
+                </div>
+            </div>
+
+            <button id="mobileBtn" class="md:hidden p-2 rounded-xl hover:bg-gray-100">
+                <i class="fas fa-bars text-xl text-gray-700"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden absolute w-full bg-white shadow-xl border-t">
+        <div class="p-4 flex flex-col gap-1">
+            <a href="index.html" class="px-4 py-3 rounded-xl hover:bg-gray-50 font-medium">
+                <i class="fas fa-home mr-2"></i> Beranda
+            </a>
+            <a href="bank-sampah.html" class="px-4 py-3 rounded-xl hover:bg-gray-50 font-medium">
+                <i class="fas fa-recycle mr-2"></i> Bank Sampah
+            </a>
+            <a href="misi.html" class="px-4 py-3 rounded-xl hover:bg-gray-50 font-medium">
+                <i class="fas fa-trophy mr-2"></i> Misi
+            </a>
+            <a href="marketplace.html" class="px-4 py-3 rounded-xl hover:bg-gray-50 font-medium">
+                <i class="fas fa-store mr-2"></i> Marketplace
+            </a>
+            <a href="tentang.html" class="px-4 py-3 rounded-xl bg-emerald-50 text-primary font-bold">
+                <i class="fas fa-info-circle mr-2"></i> Tentang & Kontak
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Tentang Kami -->
+<section class="relative pt-24 pb-16 bg-white text-center overflow-hidden">
+    <img src="https://i.pinimg.com/736x/04/0d/fe/040dfe4b1707c81e6a77a980e17e4ece.jpg" class="absolute inset-0 w-full h-full object-cover opacity-15" alt="">
+    
+    <div class="relative z-10 max-w-4xl mx-auto px-4 card">
+        <h1 class="text-[clamp(1.8rem,5vw,3.5rem)] font-extrabold text-gray-900 mb-4">
+            Tentang EcoVend
+        </h1>
+        <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+            Platform pengelolaan sampah digital pertama di Indonesia yang mengubah sampahmu menjadi poin dan hadiah nyata.
+        </p>
+    </div>
+</section>
+
+<main class="max-w-7xl mx-auto px-4 py-16 relative z-10">
+
+    <!-- Visi & Misi -->
+    <div class="grid md:grid-cols-2 gap-8 mb-20">
+        <div class="card bg-white rounded-3xl shadow-xl p-8">
+            <div class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mb-6 text-white text-2xl">
+                <i class="fas fa-eye"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">Visi Kami</h3>
+            <p class="text-gray-600 leading-relaxed">
+                Menjadikan Indonesia negara terbersih di dunia dengan mengubah perilaku masyarakat dalam mengelola sampah, satu poin dalam satu waktu.
+            </p>
+        </div>
+
+        <div class="card bg-white rounded-3xl shadow-xl p-8">
+            <div class="w-16 h-16 bg-gradient-to-br from-accent to-yellow-600 rounded-2xl flex items-center justify-center mb-6 text-white text-2xl">
+                <i class="fas fa-bullseye"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">Misi Kami</h3>
+            <p class="text-gray-600 leading-relaxed">
+                Memberikan sistem reward yang adil untuk setiap sampah yang didaur ulang, sehingga menjaga lingkungan menjadi hal yang menyenangkan dan menguntungkan.
+            </p>
+        </div>
+    </div>
+
+    <!-- Statistik -->
+    <div class="bg-gradient-to-r from-primary to-secondary rounded-3xl p-8 md:p-12 text-white mb-20 shadow-2xl card">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <div class="stat-number text-4xl md:text-5xl font-black mb-2" data-target="124870">0</div>
+                <div class="opacity-80">Total Sampah Terkumpul (Kg)</div>
+            </div>
+            <div>
+                <div class="stat-number text-4xl md:text-5xl font-black mb-2" data-target="45782">0</div>
+                <div class="opacity-80">Pengguna Aktif</div>
+            </div>
+            <div>
+                <div class="stat-number text-4xl md:text-5xl font-black mb-2" data-target="892">0</div>
+                <div class="opacity-80">Bank Sampah Mitra</div>
+            </div>
+            <div>
+                <div class="stat-number text-4xl md:text-5xl font-black mb-2" data-target="32">0</div>
+                <div class="opacity-80">Kota Tercakup</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nilai Inti -->
+    <h2 class="text-3xl font-black text-center mb-12 card">Nilai Inti Kami</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+        <div class="card bg-white rounded-3xl shadow-lg p-6 text-center hover:shadow-xl transition">
+            <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4 text-primary text-xl">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <h3 class="font-bold text-xl mb-2">Ramah Lingkungan</h3>
+            <p class="text-gray-600">Setiap keputusan kami selalu berbasis dampak lingkungan yang positif</p>
+        </div>
+
+        <div class="card bg-white rounded-3xl shadow-lg p-6 text-center hover:shadow-xl transition">
+            <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4 text-primary text-xl">
+                <i class="fas fa-handshake"></i>
+            </div>
+            <h3 class="font-bold text-xl mb-2">Transparan</h3>
+            <p class="text-gray-600">Semua alur dan perjalanan sampah bisa kamu pantau secara real time</p>
+        </div>
+
+        <div class="card bg-white rounded-3xl shadow-lg p-6 text-center hover:shadow-xl transition">
+            <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4 text-primary text-xl">
+                <i class="fas fa-heart"></i>
+            </div>
+            <h3 class="font-bold text-xl mb-2">Berorientasi Pengguna</h3>
+            <p class="text-gray-600">Kami terus berkembang sesuai dengan masukan dan kebutuhan kamu</p>
+        </div>
+    </div>
+
+    <!-- Kontak Kami -->
+    <h2 class="text-3xl font-black text-center mb-12 card">Hubungi Kami</h2>
+    <div class="grid lg:grid-cols-2 gap-8 mb-16">
+        <div class="card bg-white rounded-3xl shadow-xl p-8">
+            <h3 class="text-xl font-bold mb-6">Kirim Pesan</h3>
+            
+            <input id="namaKontak" placeholder="Nama Lengkap" class="w-full border p-4 mb-4 rounded-xl outline-none focus:border-primary">
+            <input id="emailKontak" placeholder="Email" type="email" class="w-full border p-4 mb-4 rounded-xl outline-none focus:border-primary">
+            <textarea id="pesanKontak" placeholder="Pesan kamu" rows="4" class="w-full border p-4 mb-6 rounded-xl outline-none focus:border-primary resize-none"></textarea>
+
+            <button onclick="kirimPesan()" class="w-full bg-gradient-to-r from-primary to-secondary text-white py-4 rounded-xl font-bold hover:shadow-lg transition">
+                Kirim Pesan
+            </button>
+        </div>
+
+        <div class="space-y-6">
+            <div class="card bg-white rounded-3xl shadow-xl p-6 flex gap-4 items-center">
+                <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-primary text-xl flex-shrink-0">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold">Alamat Kantor</h4>
+                    <p class="text-gray-600">Jl. Sudirman No. 123, Jakarta Selatan, 12345</p>
+                </div>
+            </div>
+
+            <div class="card bg-white rounded-3xl shadow-xl p-6 flex gap-4 items-center">
+                <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-primary text-xl flex-shrink-0">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold">Email</h4>
+                    <p class="text-gray-600">halo@ecovend.id</p>
+                </div>
+            </div>
+
+            <div class="card bg-white rounded-3xl shadow-xl p-6 flex gap-4 items-center">
+                <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-primary text-xl flex-shrink-0">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold">Telepon</h4>
+                    <p class="text-gray-600">+62 21 1234 5678</p>
+                </div>
+            </div>
+
+            <div class="card bg-white rounded-3xl shadow-xl p-6 flex gap-4 items-center">
+                <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-primary text-xl flex-shrink-0">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold">Jam Operasional</h4>
+                    <p class="text-gray-600">Senin - Jumat 08.00 - 17.00 WIB</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Peta -->
+    <div class="card rounded-3xl overflow-hidden shadow-xl h-[350px] bg-gray-200 mb-12">
+        <iframe 
+            src="https://www.google.com/maps?output=embed&q=Bandung"
+            width="100%" 
+            height="100%" 
+            style="border:0;" 
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-gray-300 pt-12 pb-6">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+            <div class="col-span-2 md:col-span-1">
+              <div class="flex items-center mb-4 gap-2">
+                    <img src="img/logo.png" alt="EcoVend Logo" class="h-8 object-contain" onerror="this.src='https://picsum.photos/id/1025/100'">
+                    <span class="text-xl font-bold text-white">EcoVend</span>
+                </div>
+                <p class="text-sm text-gray-400">
+                    Platform digital pengelolaan sampah berbasis poin untuk Indonesia yang lebih bersih.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-4">Platform</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="index.html" class="hover:text-white transition">Beranda</a></li>
+                    <li><a href="bank-sampah.html" class="hover:text-white transition">Bank Sampah</a></li>
+                    <li><a href="misi.html" class="hover:text-white transition">Misi</a></li>
+                    <li><a href="marketplace.html" class="hover:text-white transition">Marketplace</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-4">Perusahaan</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="tentang.html" class="hover:text-white transition">Tentang Kami</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-4">Legal</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-white transition">Kebijakan Privasi</a></li>
+                    <li><a href="#" class="hover:text-white transition">Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+            &copy; 2026 EcoVend. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<!-- Modal Sukses Kirim Pesan -->
+<div id="successModal" class="reward-modal">
+    <div class="reward-card">
+        <div class="reward-header">
+            <div class="reward-icon">📩</div>
+            <div class="font-bold text-xl">Pesan Terkirim!</div>
+        </div>
+        <div class="reward-body">
+            <div class="text-xl font-bold mb-2">Terima Kasih!</div>
+            <p class="text-gray-600 mb-6">Pesan kamu sudah berhasil terkirim, tim kami akan menghubungi kamu maksimal 1x24 jam kerja.</p>
+            <button class="reward-btn" onclick="tutupModal()">Oke, Mengerti</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Navbar
+    const avatarBtn = document.getElementById('avatarBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    if(avatarBtn && dropdownMenu){
+        avatarBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('opacity-0');
+            dropdownMenu.classList.toggle('scale-95');
+            dropdownMenu.classList.toggle('pointer-events-none');
+        });
+        document.addEventListener('click', () => {
+            dropdownMenu.classList.add('opacity-0','scale-95','pointer-events-none');
+        });
+    }
+
+    const mobileBtn = document.getElementById('mobileBtn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if(mobileBtn && mobileMenu){
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('show');
+        });
+    }
+
+    // Animasi masuk semua card
+    function initAnimations() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('slide-up');
+
+                    // Animasi hitung statistik ketika terlihat
+                    if(entry.target.querySelector('.stat-number')) {
+                        document.querySelectorAll('.stat-number').forEach(stat => {
+                            animateCounter(0, parseInt(stat.dataset.target), 2000, stat);
+                        })
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.card').forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+            observer.observe(card);
+        });
+    }
+
+    function animateCounter(from, to, duration, el) {
+        const start = from;
+        const end = to;
+        const startTime = performance.now();
+
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+            const current = Math.floor(start + (end - start) * easeOut);
+            
+            el.innerText = current.toLocaleString('id-ID');
+
+            if(progress < 1) requestAnimationFrame(update);
+        }
+
+        requestAnimationFrame(update);
+    }
+
+    // Kirim Pesan Kontak
+    window.kirimPesan = function() {
+        const nama = document.getElementById('namaKontak').value.trim();
+        const email = document.getElementById('emailKontak').value.trim();
+        const pesan = document.getElementById('pesanKontak').value.trim();
+
+        if(!nama || !email || !pesan) {
+            document.querySelector('.card form, .card').classList.add('shake');
+            setTimeout(() => document.querySelector('.card').classList.remove('shake'), 400);
+            return;
+        }
+
+        // Reset form
+        document.getElementById('namaKontak').value = '';
+        document.getElementById('emailKontak').value = '';
+        document.getElementById('pesanKontak').value = '';
+
+        // Buka modal sukses
+        document.getElementById('successModal').classList.add('show');
+        spawnConfetti();
+
+        // Suara notifikasi
+        try { new Audio('https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3').play().catch(() => {}) } catch(e) {}
+    }
+
+    window.tutupModal = function() {
+        document.getElementById('successModal').classList.remove('show');
+    }
+
+    document.getElementById('successModal').addEventListener('click', e => {
+        if(e.target === e.currentTarget) tutupModal();
+    })
+
+    document.addEventListener('keydown', e => {
+        if(e.key === 'Escape') tutupModal();
+    })
+
+    function spawnConfetti() {
+        const colors = ['#eab308', '#15803d', '#ef4444', '#3b82f6', '#a855f7'];
+        const card = document.querySelector('#successModal .reward-card');
+
+        for(let i = 0; i < 30; i++) {
+            setTimeout(() => {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.top = '0px';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                confetti.style.width = `${Math.random() * 8 + 4}px`;
+                confetti.style.height = confetti.style.width;
+                
+                card.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 2000);
+            }, i * 20);
+        }
+    }
+
+    initAnimations();
+});
+</script>
+
+</body>
+</html>

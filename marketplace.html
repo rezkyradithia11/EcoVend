@@ -84,6 +84,143 @@
             min-height: 48px;
             min-width: 48px;
         }
+
+        /* ========== SAMA PERSIS ANIMASI SEPERTI HALAMAN MISI ========== */
+        .reward-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+            padding: 20px;
+        }
+        .reward-modal.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .reward-card {
+            background: white;
+            border-radius: 32px;
+            max-width: 380px;
+            width: 100%;
+            text-align: center;
+            transform: translateY(100px) scale(0.8);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            position: relative;
+        }
+        .reward-modal.show .reward-card {
+            transform: translateY(0) scale(1);
+        }
+        .reward-header {
+            background: linear-gradient(135deg, #15803d 0%, #13601f 100%);
+            padding: 40px 20px 30px;
+            color: white;
+            position: relative;
+        }
+        .reward-header.error {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+        }
+        .reward-icon {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 40px;
+            animation: pop 0.6s ease 0.2s both;
+        }
+        @keyframes pop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .reward-point {
+            font-size: 52px;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .reward-body {
+            padding: 24px;
+        }
+        .reward-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #1f2937;
+        }
+        .reward-desc {
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+        .reward-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #15803d, #13601f);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .reward-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(19, 96, 31, 0.3);
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: confetti-fall 1.5s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes confetti-fall {
+            0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(150px) rotate(720deg); }
+        }
+        .flying-point {
+            position: fixed;
+            font-weight: 900;
+            font-size: 24px;
+            color: #ef4444;
+            pointer-events: none;
+            z-index: 9999;
+            animation: flyToPoint 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            text-shadow: 0 2px 8px rgba(239, 68, 68, 0.5);
+        }
+        @keyframes flyToPoint {
+            0% { opacity: 1; transform: scale(1.5); }
+            100% { opacity: 0; transform: scale(0.5) translateY(-100px); }
+        }
+
+        /* Tombol disabled poin kurang */
+        button.tukar-disabled {
+            background: #9ca3af !important;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .shake {
+            animation: shake 0.4s ease;
+        }
     </style>
 </head>
 <body class="font-sans antialiased bg-gray-50 text-gray-800 min-h-screen">
@@ -243,7 +380,7 @@
                         </div>
                         <div class="flex items-center justify-between mt-auto">
                             <span class="text-xl font-black text-primary">1.250 <span class="text-xs font-normal text-gray-500">Poin</span></span>
-                            <button onclick="bukaForm(1250, 'Tumbler Premium')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                            <button onclick="bukaForm(1250, 'Tumbler Premium')" class="tukar-btn bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
                         </div>
                     </div>
                 </div>
@@ -260,7 +397,7 @@
                         </div>
                         <div class="flex items-center justify-between mt-auto">
                             <span class="text-xl font-black text-primary">450 <span class="text-xs font-normal text-gray-500">Poin</span></span>
-                            <button onclick="bukaForm(450, 'Tote Bag Eco')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                            <button onclick="bukaForm(450, 'Tote Bag Eco')" class="tukar-btn bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
                         </div>
                     </div>
                 </div>
@@ -277,7 +414,7 @@
                         </div>
                         <div class="flex items-center justify-between mt-auto">
                             <span class="text-xl font-black text-primary">180 <span class="text-xs font-normal text-gray-500">Poin</span></span>
-                            <button onclick="bukaForm(180, 'Sikat Gigi Bambu')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                            <button onclick="bukaForm(180, 'Sikat Gigi Bambu')" class="tukar-btn bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
                         </div>
                     </div>
                 </div>
@@ -294,7 +431,7 @@
                         </div>
                         <div class="flex items-center justify-between mt-auto">
                             <span class="text-xl font-black text-primary">90 <span class="text-xs font-normal text-gray-500">Poin</span></span>
-                            <button onclick="bukaForm(90, 'Sedotan Stainless Steel')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                            <button onclick="bukaForm(90, 'Sedotan Stainless Steel')" class="tukar-btn bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
                         </div>
                     </div>
                 </div>
@@ -311,7 +448,7 @@
                         </div>
                         <div class="flex items-center justify-between mt-auto">
                             <span class="text-xl font-black text-primary">300 <span class="text-xs font-normal text-gray-500">Poin</span></span>
-                            <button onclick="bukaForm(300, 'Eco Notebook')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                            <button onclick="bukaForm(300, 'Eco Notebook')" class="tukar-btn bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
                         </div>
                     </div>
                 </div>
@@ -328,7 +465,7 @@
                         </div>
                         <div class="flex items-center justify-between mt-auto">
                             <span class="text-xl font-black text-primary">220 <span class="text-xs font-normal text-gray-500">Poin</span></span>
-                            <button onclick="bukaForm(220, 'Lampu Hias Eco')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                            <button onclick="bukaForm(220, 'Lampu Hias Eco')" class="tukar-btn bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
                         </div>
                     </div>
                 </div>
@@ -345,7 +482,7 @@
                         </div>
                         <div class="flex items-center justify-between mt-auto">
                             <span class="text-xl font-black text-primary">800 <span class="text-xs font-normal text-gray-500">Poin</span></span>
-                            <button onclick="bukaForm(800, 'Voucher Belanja 100k')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                            <button onclick="bukaForm(800, 'Voucher Belanja 100k')" class="tukar-btn bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
                         </div>
                     </div>
                 </div>
@@ -362,7 +499,7 @@
                         </div>
                         <div class="flex items-center justify-between mt-auto">
                             <span class="text-xl font-black text-primary">500 <span class="text-xs font-normal text-gray-500">Poin</span></span>
-                            <button onclick="bukaForm(500, 'Voucher Makanan')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                            <button onclick="bukaForm(500, 'Voucher Makanan')" class="tukar-btn bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
                         </div>
                     </div>
                 </div>
@@ -379,7 +516,7 @@
                         </div>
                         <div class="flex items-center justify-between mt-auto">
                             <span class="text-xl font-black text-primary">650 <span class="text-xs font-normal text-gray-500">Poin</span></span>
-                            <button onclick="bukaForm(650, 'Voucher Transportasi')" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
+                            <button onclick="bukaForm(650, 'Voucher Transportasi')" class="tukar-btn bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm">Tukar</button>
                         </div>
                     </div>
                 </div>
@@ -426,7 +563,6 @@
                     <h4 class="text-white font-semibold mb-4">Perusahaan</h4>
                     <ul class="space-y-2 text-sm">
                         <li><a href="tentang.html" class="hover:text-white transition">Tentang Kami</a></li>
-                        <li><a href="#" class="hover:text-white transition">Kontak</a></li>
                     </ul>
                 </div>
 
@@ -446,41 +582,40 @@
     </footer>
 
     <!-- Popup Form Penukaran -->
-    <div id="popupForm" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4">
-        <div class="bg-white p-6 rounded-2xl w-full max-w-md shadow-2xl">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold">Form Penukaran</h2>
-                <button onclick="tutupForm()" class="p-2 hover:bg-gray-100 rounded-xl">
-                    <i class="fas fa-times text-gray-600"></i>
+    <div id="popupForm" class="reward-modal">
+        <div class="reward-card" style="max-width: 420px">
+            <div class="reward-header">
+                <div class="reward-icon">🎁</div>
+                <div class="font-bold text-xl">Form Penukaran</div>
+            </div>
+            <div class="reward-body text-left">
+                <div class="mb-4 bg-emerald-50 p-3 rounded-xl">
+                    <p class="text-sm">Kamu akan menukar poin untuk <br> <strong id="namaProdukPopup" class="text-primary"></strong></p>
+                </div>
+                
+                <input id="nama" placeholder="Nama Lengkap" class="w-full border p-3 mb-3 rounded-xl outline-none focus:border-primary">
+                <input id="alamat" placeholder="Alamat Lengkap Pengiriman" class="w-full border p-3 mb-3 rounded-xl outline-none focus:border-primary">
+                <input id="hp" placeholder="No. HP" inputmode="tel" class="w-full border p-3 mb-4 rounded-xl outline-none focus:border-primary">
+
+                <button onclick="konfirmasiTukar()" class="reward-btn">
+                    Konfirmasi Tukar
                 </button>
             </div>
-
-            <div class="mb-4 bg-emerald-50 p-3 rounded-xl">
-                <p class="text-sm">Kamu akan menukar poin untuk <br> <strong id="namaProdukPopup" class="text-primary"></strong></p>
-            </div>
-            
-            <input id="nama" placeholder="Nama Lengkap" class="w-full border p-3 mb-3 rounded-xl outline-none focus:border-primary">
-            <input id="alamat" placeholder="Alamat Lengkap Pengiriman" class="w-full border p-3 mb-3 rounded-xl outline-none focus:border-primary">
-            <input id="hp" placeholder="No. HP" inputmode="tel" class="w-full border p-3 mb-4 rounded-xl outline-none focus:border-primary">
-
-            <button onclick="konfirmasiTukar()" class="w-full bg-gradient-to-r from-primary to-secondary text-white py-3.5 rounded-xl font-bold">
-                Konfirmasi Tukar
-            </button>
         </div>
     </div>
 
-    <!-- Popup Sukses -->
-    <div id="popupSuccess" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4">
-        <div class="bg-white p-8 rounded-2xl w-full max-w-sm text-center shadow-2xl">
-            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-check text-3xl text-green-600"></i>
+    <!-- Popup Sukses / Error -->
+    <div id="rewardModal" class="reward-modal">
+        <div class="reward-card">
+            <div class="reward-header" id="modalHeader">
+                <div class="reward-icon" id="modalIcon">🎉</div>
+                <div class="font-bold text-xl" id="modalTitle">Berhasil!</div>
             </div>
-            <h2 class="text-xl font-bold mb-2">Berhasil Ditukarkan!</h2>
-            <p class="text-gray-600 mb-4">Kamu berhasil menukar <strong id="namaVoucher"></strong></p>
-            <p class="text-sm text-gray-500 mb-6">Produk akan dikirimkan maksimal 3 hari kerja</p>
-            <button onclick="tutupSuccess()" class="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 rounded-xl font-bold">
-                Oke, Mengerti
-            </button>
+            <div class="reward-body">
+                <div class="reward-title" id="modalSubTitle">Berhasil Ditukarkan!</div>
+                <div class="reward-desc" id="modalDesc"></div>
+                <button class="reward-btn" onclick="closeModal()">Oke, Mengerti</button>
+            </div>
         </div>
     </div>
 
@@ -493,26 +628,38 @@
         // Update UI Poin
         function updateUI(){
             document.getElementById("saldoPoin").innerText = poin.toLocaleString("id-ID") + " Poin";
+
+            // Auto disable tombol tukar yang poinnya kurang
+            document.querySelectorAll('.tukar-btn').forEach(btn => {
+                const harga = parseInt(btn.getAttribute('onclick').match(/\d+/)[0]);
+                if(poin < harga) {
+                    btn.classList.add('tukar-disabled');
+                    btn.innerText = "Poin Kurang";
+                } else {
+                    btn.classList.remove('tukar-disabled');
+                    btn.innerText = "Tukar";
+                }
+            })
         }
 
         // Buka Form Penukaran
         function bukaForm(harga, produk){
+            if(poin < harga){
+                showErrorModal(`Maaf poin kamu kurang ${(harga - poin).toLocaleString('id-ID')} poin untuk menukar produk ini`);
+                return;
+            }
+
             hargaDipilih = harga;
             produkDipilih = produk;
             
             document.getElementById("namaProdukPopup").innerText = produk;
-
-            const popup = document.getElementById("popupForm");
-            popup.classList.remove("hidden");
-            popup.classList.add("flex");
+            document.getElementById("popupForm").classList.add('show');
             document.body.classList.add("modal-open");
         }
 
         // Tutup Form
         function tutupForm(){
-            const popup = document.getElementById("popupForm");
-            popup.classList.add("hidden");
-            popup.classList.remove("flex");
+            document.getElementById("popupForm").classList.remove('show');
             document.body.classList.remove("modal-open");
         }
 
@@ -523,39 +670,120 @@
             const hp = document.getElementById("hp").value.trim();
 
             if(!nama || !alamat || !hp){
-                alert("⚠️ Harap isi semua data dengan lengkap!");
+                document.querySelector('#popupForm .reward-card').classList.add('shake');
+                setTimeout(() => document.querySelector('#popupForm .reward-card').classList.remove('shake'), 400);
                 return;
             }
 
-            if(poin < hargaDipilih){
-                alert("❌ Maaf poin kamu tidak cukup untuk menukar produk ini");
-                return;
-            }
-
-            // Potong Poin
-            poin -= hargaDipilih;
-            localStorage.setItem("poin", poin);
-            updateUI();
-
-            // Tutup Form
+            // 1. Tutup form
             tutupForm();
 
-            // Reset Form
+            // 2. Animasi poin terbang
+            const flyEl = document.createElement('div');
+            flyEl.classList.add('flying-point');
+            flyEl.innerText = `-${hargaDipilih}`;
+            flyEl.style.left = `50%`;
+            flyEl.style.top = `50%`;
+            document.body.appendChild(flyEl);
+
+
+            // 4. Animasi hitung poin berkurang
+            const oldPoin = poin;
+            poin -= hargaDipilih;
+            localStorage.setItem("poin", poin);
+            
+            animateCounter(oldPoin, poin, 800);
+
+            setTimeout(() => flyEl.remove(), 1000);
+
+            // 5. Reset Form
             document.getElementById("nama").value = "";
             document.getElementById("alamat").value = "";
             document.getElementById("hp").value = "";
 
-            // Tampilkan Popup Sukses
-            document.getElementById("namaVoucher").innerText = produkDipilih;
-            document.getElementById("popupSuccess").classList.remove("hidden");
-            document.getElementById("popupSuccess").classList.add("flex");
+            // 6. Buka modal sukses
+            setTimeout(() => {
+                showSuccessModal();
+                spawnConfetti();
+            }, 1100);
         }
 
-        // Tutup Popup Sukses
-        function tutupSuccess(){
-            document.getElementById("popupSuccess").classList.add("hidden");
-            document.getElementById("popupSuccess").classList.remove("flex");
+        function animateCounter(from, to, duration) {
+            const el = document.getElementById('saldoPoin');
+            const start = from;
+            const end = to;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(start + (end - start) * easeOut);
+                
+                el.innerText = current.toLocaleString('id-ID') + ' Poin';
+
+                if(progress < 1) requestAnimationFrame(update);
+                else updateUI();
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        function showSuccessModal() {
+            document.getElementById('modalHeader').classList.remove('error');
+            document.getElementById('modalIcon').innerText = '✅';
+            document.getElementById('modalTitle').innerText = 'Berhasil Ditukarkan!';
+            document.getElementById('modalSubTitle').innerText = 'Selamat!';
+            document.getElementById('modalDesc').innerHTML = `Kamu berhasil menukar <strong>${produkDipilih}</strong>.<br>Produk akan dikirimkan maksimal 3 hari kerja`;
+            
+            document.getElementById('rewardModal').classList.add('show');
+        }
+
+        function showErrorModal(message) {
+            document.getElementById('modalHeader').classList.add('error');
+            document.getElementById('modalIcon').innerText = '😕';
+            document.getElementById('modalTitle').innerText = 'Gagal';
+            document.getElementById('modalSubTitle').innerText = 'Poin Tidak Cukup';
+            document.getElementById('modalDesc').innerText = message;
+            
+            document.getElementById('rewardModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.querySelectorAll('.reward-modal').forEach(m => m.classList.remove('show'));
             document.body.classList.remove("modal-open");
+        }
+
+        // Tutup modal ketika klik backdrop atau escape
+        document.querySelectorAll('.reward-modal').forEach(modal => {
+            modal.addEventListener('click', e => {
+                if(e.target === e.currentTarget) closeModal();
+            })
+        })
+        document.addEventListener('keydown', e => {
+            if(e.key === 'Escape') closeModal();
+        })
+
+        // Efek konfetti
+        function spawnConfetti() {
+            const colors = ['#eab308', '#15803d', '#ef4444', '#3b82f6', '#a855f7'];
+            const card = document.querySelector('#rewardModal .reward-card');
+
+            for(let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.top = '0px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                    confetti.style.width = `${Math.random() * 8 + 4}px`;
+                    confetti.style.height = confetti.style.width;
+                    
+                    card.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 2000);
+                }, i * 20);
+            }
         }
 
         // Kategori Filter
